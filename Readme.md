@@ -1,7 +1,7 @@
 # Личный проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
-* Студент: [Настя Виденеева](https://up.htmlacademy.ru/ecmascript/9/user/690889).
-* Наставник: `Неизвестно`.
+- Студент: [Настя Виденеева](https://up.htmlacademy.ru/ecmascript/9/user/690889).
+- Наставник: [Дмитрий Донецкий](https://htmlacademy.ru/profile/id497669).
 
 ---
 
