@@ -20,10 +20,18 @@ const MAX_DATE_DELTA = 7 * 24 * 60 * 60 * 1000;
 const MIN_EVENT_DURATION = 10 * 60 * 1000; // 10 min
 const MAX_EVENT_DURATION = 2 * 24 * 60 * 60 * 1000; // 2 days
 
+export const getFilters = () => {
+  return [
+    {name: `everything`, isSelected: true},
+    {name: `future`, isSelected: false},
+    {name: `past`, isSelected: false}
+  ];
+};
+
 import {getRandomBoolean, getRandomNumber, getRandomArraySubset, getRandomArrayElement} from './utils';
 
 
-export const eventData = () => ({
+export const getEventData = () => ({
   type: getRandomArrayElement(EVENT_TYPES),
   title: ``,
   city: getRandomArrayElement(CITIES),

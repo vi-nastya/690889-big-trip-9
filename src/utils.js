@@ -34,6 +34,19 @@ export const formatDuration = (duration) => {
   // Todo: if < 10, add 0 at the beginning
 
   if (duration < MILLISECONDS_IN_HOUR) {
+
+    // a можно getHours(), getMinutes() использовать
+
+    // Date.prototype.yyyymmdd = function() {
+    //   var mm = this.getMonth() + 1; // getMonth() is zero-based
+    //   var dd = this.getDate();
+
+    //   return [this.getFullYear(),
+    //           (mm>9 ? '' : '0') + mm,
+    //           (dd>9 ? '' : '0') + dd
+    //          ].join('');
+    // };
+
     minutes = Math.round(duration / MILLISECONDS_IN_MINUTE);
     return minutes.toString() + `M`;
   } else if (duration < MILLISECONDS_IN_DAY) {
