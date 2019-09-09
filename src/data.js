@@ -16,6 +16,9 @@ const MIN_DESCRIPTION_LENGTH = 1;
 const MAX_DESCRIPTION_LENGTH = 3;
 const MIN_PRICE = 0;
 const MAX_PRICE = 300;
+const MAX_DATE_DELTA = 7 * 24 * 60 * 60 * 1000;
+const MIN_EVENT_DURATION = 10 * 60 * 1000; // 10 min
+const MAX_EVENT_DURATION = 2 * 24 * 60 * 60 * 1000; // 2 days
 
 import {getRandomBoolean, getRandomNumber, getRandomArraySubset, getRandomArrayElement} from './utils';
 
@@ -28,7 +31,8 @@ export const eventData = () => ({
   description: getRandomArraySubset(DESCRIPTION_SENTENCES, getRandomNumber(MAX_DESCRIPTION_LENGTH, MIN_DESCRIPTION_LENGTH)).join(` `),
   price: getRandomNumber(MAX_PRICE, MIN_PRICE),
   time: 0,
-  date: ``,
+  dateStart: Date.now() + 1 + getRandomNumber(MAX_DATE_DELTA),
+  duration: getRandomNumber(MAX_EVENT_DURATION, MIN_EVENT_DURATION),
   options: new Set([
     {
       name: `Add luggage`,
