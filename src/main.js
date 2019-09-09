@@ -1,3 +1,4 @@
+import {eventData} from './data';
 import {getMenuMarkup} from './components/menu';
 import {getFiltersMarkup} from './components/filters';
 import {getEditEventFormMarkup} from './components/edit-event-form';
@@ -7,6 +8,8 @@ import {getTripInfoMarkup} from './components/trip-info';
 import {getTripSortMarkup} from './components/trip-sort';
 
 const NUM_CARDS = 3;
+
+console.log(eventData());
 
 const renderComponent = (element, componentMarkup, position = `beforeend`) => {
   element.insertAdjacentHTML(position, componentMarkup);
