@@ -19,12 +19,6 @@ export const getCities = (events) => {
   events.reduce();
 };
 
-export const formatRoute = (cities) => {
-  if (cities.length > 3) {
-    return cities[0] + `--` + cities[cities.length - 1];
-  }
-  return cities.join(`--`);
-};
 
 export const formatDuration = (duration) => {
   let minutes = 0;

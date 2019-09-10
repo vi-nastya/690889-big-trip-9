@@ -65,3 +65,18 @@ export const getEventData = () => ({
   ])
 });
 
+export const formatRoute = (cities) => {
+  if (cities.length > 3) {
+    return cities[0] + `&mdash;` + cities[cities.length - 1];
+  }
+  return cities.join(`&mdash;`);
+};
+
+export const getTripInfoData = (points) => {
+  return {
+    route: formatRoute(points.map((p) => p.city)),
+    dateStart: points[0].dateStart,
+    dateEnd: points[points.length - 1].dateEnd,
+    cost: points.reduce() // TODO
+  };
+};
