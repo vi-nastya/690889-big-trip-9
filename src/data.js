@@ -1,3 +1,5 @@
+import {getRandomBoolean, getRandomNumber, getRandomArraySubset, getRandomArrayElement, MILLISECONDS_IN_DAY, MILLISECONDS_IN_MINUTE} from './utils';
+
 const EVENT_TYPES = [`bus`, `check-in`, `drive`, `flight`, `restaurant`, `ship`, `sightseeing`, `taxi`, `train`, `transport`, `trip`];
 const DESCRIPTION_SENTENCES = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
@@ -16,9 +18,9 @@ const MIN_DESCRIPTION_LENGTH = 1;
 const MAX_DESCRIPTION_LENGTH = 3;
 const MIN_PRICE = 0;
 const MAX_PRICE = 300;
-const MAX_DATE_DELTA = 7 * 24 * 60 * 60 * 1000;
-const MIN_EVENT_DURATION = 10 * 60 * 1000; // 10 min
-const MAX_EVENT_DURATION = 2 * 24 * 60 * 60 * 1000; // 2 days
+const MAX_DATE_DELTA = 14 * MILLISECONDS_IN_DAY;
+const MIN_EVENT_DURATION = 10 * MILLISECONDS_IN_MINUTE;
+const MAX_EVENT_DURATION = 3 * MILLISECONDS_IN_DAY;
 
 export const getFilters = () => {
   return [
@@ -27,9 +29,6 @@ export const getFilters = () => {
     {name: `past`, isSelected: false}
   ];
 };
-
-import {getRandomBoolean, getRandomNumber, getRandomArraySubset, getRandomArrayElement} from './utils';
-
 
 export const getEventData = () => ({
   type: getRandomArrayElement(EVENT_TYPES),
@@ -72,11 +71,17 @@ export const formatRoute = (cities) => {
   return cities.join(`&mdash;`);
 };
 
-export const getTripInfoData = (points) => {
+const getEndDate = (events) => {
+  return Math.max(...events.map((e) => e.dateStart + e.duration));
+};
+
+export const getTripInfoData = (events) => {
   return {
-    route: formatRoute(points.map((p) => p.city)),
-    dateStart: points[0].dateStart,
-    dateEnd: points[points.length - 1].dateEnd,
-    cost: points.reduce() // TODO
+    route: formatRoute(events.map((e) => e.city)),
+    dateStart: (new Date(events[0].dateStart)).toString().slice(4, 10),
+    dateEnd: (new Date(getEndDate(events))).toString().slice(4, 10),
+    cost: events.map((e) => e.price).reduce((total, currenPrice) => {
+      return total + currenPrice;
+    })
   };
 };

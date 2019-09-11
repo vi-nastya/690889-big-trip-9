@@ -1,4 +1,4 @@
-import {getEventData} from './data';
+import {getEventData, getTripInfoData} from './data';
 import {getFilters} from './data';
 import {getMenuMarkup} from './components/menu';
 import {getFiltersMarkup} from './components/filters';
@@ -8,31 +8,47 @@ import {getDayCardMarkup} from './components/day-card';
 import {getTripInfoMarkup} from './components/trip-info';
 import {getTripSortMarkup} from './components/trip-sort';
 
-const NUM_CARDS = 3;
+const NUM_EVENTS = 3;
+
+const generateEventsData = (numEvents) => {
+  let events = [];
+  for (let i = 0; i < numEvents; i++) {
+    events.push(getEventData());
+  }
+  return events.sort((e1, e2) => {
+    return e1.dateStart < e2.dateStart;
+  });
+};
 
 const renderComponent = (element, componentMarkup, position = `beforeend`) => {
   element.insertAdjacentHTML(position, componentMarkup);
 };
 
-const renderCards = (element, numCardsToRender) => {
-  for (let i = 0; i < numCardsToRender; i++) {
-    renderComponent(element, getDayCardMarkup());
+const renderEvents = (element, events) => {
+  for (let i = 0; i < events.length; i++) {
+    renderComponent(element, getDayCardMarkup(events[i]));
   }
 };
+
+const events = generateEventsData(NUM_EVENTS);
+console.log(events);
+
 
 const tripInfoContainer = document.querySelector(`.trip-info`);
 const menuHeader = document.querySelector(`.trip-controls h2`);
 const filtersHeader = document.querySelectorAll(`.trip-controls h2`)[1];
 const tripEventsContainer = document.querySelector(`.trip-events`);
 
-renderComponent(tripInfoContainer, getTripInfoMarkup(), `afterbegin`);
+const tripInfoData = getTripInfoData(events);
+
+renderComponent(tripInfoContainer, getTripInfoMarkup(tripInfoData), `afterbegin`);
 renderComponent(menuHeader, getMenuMarkup(), `afterend`);
 
-let filters = getFilters();
+let filters = getFilters(events);
 renderComponent(filtersHeader, getFiltersMarkup(filters), `afterend`);
 renderComponent(tripEventsContainer, getTripSortMarkup());
 renderComponent(tripEventsContainer, getEditEventFormMarkup());
 renderComponent(tripEventsContainer, getDaysListMarkup());
 
 const daysContainer = document.querySelector(`.trip-days`);
-renderCards(daysContainer, NUM_CARDS);
+renderEvents(daysContainer, events);
