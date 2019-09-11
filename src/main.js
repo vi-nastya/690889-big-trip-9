@@ -4,7 +4,7 @@ import {getMenuMarkup} from './components/menu';
 import {getFiltersMarkup} from './components/filters';
 import {getEditEventFormMarkup} from './components/edit-event-form';
 import {getDaysListMarkup} from './components/days-list';
-import {getDayCardMarkup} from './components/day-card';
+import {getEventMarkup} from './components/event';
 import {getTripInfoMarkup} from './components/trip-info';
 import {getTripSortMarkup} from './components/trip-sort';
 
@@ -26,13 +26,11 @@ const renderComponent = (element, componentMarkup, position = `beforeend`) => {
 
 const renderEvents = (element, events) => {
   for (let i = 0; i < events.length; i++) {
-    renderComponent(element, getDayCardMarkup(events[i]));
+    renderComponent(element, getEventMarkup(events[i]));
   }
 };
 
 const events = generateEventsData(NUM_EVENTS);
-console.log(events);
-
 
 const tripInfoContainer = document.querySelector(`.trip-info`);
 const menuHeader = document.querySelector(`.trip-controls h2`);
@@ -50,5 +48,5 @@ renderComponent(tripEventsContainer, getTripSortMarkup());
 renderComponent(tripEventsContainer, getEditEventFormMarkup());
 renderComponent(tripEventsContainer, getDaysListMarkup());
 
-const daysContainer = document.querySelector(`.trip-days`);
-renderEvents(daysContainer, events);
+const eventsContainer = document.querySelector(`.trip-events__list`);
+renderEvents(eventsContainer, events);

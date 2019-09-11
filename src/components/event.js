@@ -1,5 +1,6 @@
 export const getEventMarkup = () => {
-  return `<div class="event">
+  return `<li class="trip-events__item">
+  <div class="event">
   <div class="event__type">
     <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
   </div>
@@ -30,5 +31,6 @@ export const getEventMarkup = () => {
   <button class="event__rollup-btn" type="button">
     <span class="visually-hidden">Open event</span>
   </button>
-</div>`;
+</div>
+</li>`;
 };
