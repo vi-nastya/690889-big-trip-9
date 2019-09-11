@@ -19,38 +19,37 @@ export const getCities = (events) => {
   events.reduce();
 };
 
-
-export const formatDuration = (duration) => {
+const getDurationParts = (duration) => {
   let minutes = 0;
   let hours = 0;
   let days = 0;
 
-  // Todo: if < 10, add 0 at the beginning
+  days = Math.floor(duration / MILLISECONDS_IN_DAY);
+  hours = Math.floor((duration - days * MILLISECONDS_IN_DAY) / MILLISECONDS_IN_HOUR);
+  minutes = Math.round((duration - days * MILLISECONDS_IN_DAY - hours * MILLISECONDS_IN_HOUR) / MILLISECONDS_IN_MINUTE);
 
-  if (duration < MILLISECONDS_IN_HOUR) {
+  return [days, hours, minutes];
+};
 
-    // a можно getHours(), getMinutes() использовать
-
-    // Date.prototype.yyyymmdd = function() {
-    //   var mm = this.getMonth() + 1; // getMonth() is zero-based
-    //   var dd = this.getDate();
-
-    //   return [this.getFullYear(),
-    //           (mm>9 ? '' : '0') + mm,
-    //           (dd>9 ? '' : '0') + dd
-    //          ].join('');
-    // };
-
-    minutes = Math.round(duration / MILLISECONDS_IN_MINUTE);
-    return minutes.toString() + `M`;
-  } else if (duration < MILLISECONDS_IN_DAY) {
-    hours = Math.round(duration / MILLISECONDS_IN_HOUR);
-    minutes = Math.round((duration - hours * MILLISECONDS_IN_HOUR) / MILLISECONDS_IN_MINUTE);
-    return hours.toString() + `H ` + minutes.toString() + `M`;
-  } else {
-    days = Math.round(duration / MILLISECONDS_IN_DAY);
-    hours = Math.round((duration - days * MILLISECONDS_IN_DAY) / MILLISECONDS_IN_HOUR);
-    minutes = Math.round((duration - days * MILLISECONDS_IN_DAY - hours * MILLISECONDS_IN_HOUR) / MILLISECONDS_IN_MINUTE);
-    return days.toString() + `D ` + hours.toString() + `H ` + minutes.toString() + `M`;
+const addZero = (interval) => {
+  if (interval < 10) {
+    return `0` + interval.toString();
   }
+  return interval.toString();
+};
+
+export const formatDuration = (duration) => {
+  const [days, hours, minutes] = getDurationParts(duration);
+
+  if (days === 0 && hours === 0) {
+    return addZero(minutes) + `M`;
+  } else if (days === 0) {
+    return addZero(hours) + `H ` + addZero(minutes) + `M`;
+  } else {
+    return addZero(days) + `D ` + addZero(hours) + `H ` + addZero(minutes) + `M`;
+  }
+};
+
+export const getTimeFromTimestamp = (timestamp) => {
+  return (new Date(timestamp)).toString().slice(16, 21);
 };

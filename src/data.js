@@ -1,4 +1,4 @@
-import {getRandomBoolean, getRandomNumber, getRandomArraySubset, getRandomArrayElement, MILLISECONDS_IN_DAY, MILLISECONDS_IN_MINUTE} from './utils';
+import {getRandomBoolean, getRandomNumber, getRandomArraySubset, getRandomArrayElement, MILLISECONDS_IN_DAY, MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE} from './utils';
 
 const EVENT_TYPES = [`bus`, `check-in`, `drive`, `flight`, `restaurant`, `ship`, `sightseeing`, `taxi`, `train`, `transport`, `trip`];
 const DESCRIPTION_SENTENCES = [
@@ -20,7 +20,7 @@ const MIN_PRICE = 0;
 const MAX_PRICE = 300;
 const MAX_DATE_DELTA = 14 * MILLISECONDS_IN_DAY;
 const MIN_EVENT_DURATION = 10 * MILLISECONDS_IN_MINUTE;
-const MAX_EVENT_DURATION = 3 * MILLISECONDS_IN_DAY;
+const MAX_EVENT_DURATION = 4 * MILLISECONDS_IN_HOUR;
 
 export const getFilters = () => {
   return [
@@ -32,7 +32,6 @@ export const getFilters = () => {
 
 export const getEventData = () => ({
   type: getRandomArrayElement(EVENT_TYPES),
-  title: ``,
   city: getRandomArrayElement(CITIES),
   photos: `http://picsum.photos/300/150?r=${Math.random()}`,
   description: getRandomArraySubset(DESCRIPTION_SENTENCES, getRandomNumber(MAX_DESCRIPTION_LENGTH, MIN_DESCRIPTION_LENGTH)).join(` `),
