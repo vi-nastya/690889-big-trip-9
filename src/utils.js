@@ -2,6 +2,10 @@ export const MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
 export const MILLISECONDS_IN_HOUR = 60 * 60 * 1000;
 export const MILLISECONDS_IN_MINUTE = 60 * 1000;
 
+export const EVENT_TYPES = [`bus`, `check-in`, `drive`, `flight`, `restaurant`, `ship`, `sightseeing`, `taxi`, `train`, `transport`, `trip`];
+export const TRANSFER_TYPES = [`bus`, `drive`, `flight`, `ship`, `taxi`, `train`, `transport`];
+export const ACTIVITY_TYPES = [`check-in`, `restaurant`, `sightseeing`, `trip`];
+
 export const getRandomBoolean = () => Boolean(Math.round(Math.random()));
 
 export const getRandomNumber = (maxNumber, minNumber = 0) => Math.round(Math.random() * (maxNumber - minNumber)) + minNumber;
@@ -50,6 +54,4 @@ export const formatDuration = (duration) => {
   }
 };
 
-export const getTimeFromTimestamp = (timestamp) => {
-  return (new Date(timestamp)).toString().slice(16, 21);
-};
+export const getTimeFromTimestamp = (timestamp) => new Date(timestamp).toString().slice(16, 21);

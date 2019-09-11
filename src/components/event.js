@@ -1,5 +1,13 @@
 import {formatDuration, getTimeFromTimestamp} from '../utils';
 
+const renderOffer = (offerData) => {
+  return `<li class="event__offer">
+  <span class="event__offer-title">${offerData.name}</span>
+  &plus;
+  &euro;&nbsp;<span class="event__offer-price">${offerData.price}</span>
+ </li>`;
+};
+
 export const getEventMarkup = (eventData) => {
   return `<li class="trip-events__item">
   <div class="event">
@@ -23,11 +31,7 @@ export const getEventMarkup = (eventData) => {
 
   <h4 class="visually-hidden">Offers:</h4>
   <ul class="event__selected-offers">
-    <li class="event__offer">
-      <span class="event__offer-title">Order Uber</span>
-      &plus;
-      &euro;&nbsp;<span class="event__offer-price">20</span>
-     </li>
+    ${[...eventData.options].filter((offer) => offer.flag).map(renderOffer).join(`\n`)}
   </ul>
 
   <button class="event__rollup-btn" type="button">

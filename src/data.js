@@ -1,6 +1,7 @@
-import {getRandomBoolean, getRandomNumber, getRandomArraySubset, getRandomArrayElement, MILLISECONDS_IN_DAY, MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE} from './utils';
+import {getRandomBoolean, getRandomNumber, getRandomArraySubset, getRandomArrayElement,
+  MILLISECONDS_IN_DAY, MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE,
+  EVENT_TYPES} from './utils';
 
-const EVENT_TYPES = [`bus`, `check-in`, `drive`, `flight`, `restaurant`, `ship`, `sightseeing`, `taxi`, `train`, `transport`, `trip`];
 const DESCRIPTION_SENTENCES = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,

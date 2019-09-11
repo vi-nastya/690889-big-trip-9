@@ -8,7 +8,7 @@ import {getEventMarkup} from './components/event';
 import {getTripInfoMarkup} from './components/trip-info';
 import {getTripSortMarkup} from './components/trip-sort';
 
-const NUM_EVENTS = 3;
+const NUM_EVENTS = 4;
 
 const generateEventsData = (numEvents) => {
   let events = [];
@@ -31,6 +31,7 @@ const renderEvents = (element, events) => {
 };
 
 const events = generateEventsData(NUM_EVENTS);
+console.log(events);
 
 const tripInfoContainer = document.querySelector(`.trip-info`);
 const menuHeader = document.querySelector(`.trip-controls h2`);
@@ -47,8 +48,8 @@ renderComponent(menuHeader, getMenuMarkup(), `afterend`);
 let filters = getFilters(events);
 renderComponent(filtersHeader, getFiltersMarkup(filters), `afterend`);
 renderComponent(tripEventsContainer, getTripSortMarkup());
-renderComponent(tripEventsContainer, getEditEventFormMarkup());
+renderComponent(tripEventsContainer, getEditEventFormMarkup(events[0]));
 renderComponent(tripEventsContainer, getDaysListMarkup());
 
 const eventsContainer = document.querySelector(`.trip-events__list`);
-renderEvents(eventsContainer, events);
+renderEvents(eventsContainer, events.slice(1));
