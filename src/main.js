@@ -38,6 +38,8 @@ const filtersHeader = document.querySelectorAll(`.trip-controls h2`)[1];
 const tripEventsContainer = document.querySelector(`.trip-events`);
 
 const tripInfoData = getTripInfoData(events);
+const priceElement = document.querySelector(`.trip-info__cost-value`);
+priceElement.textContent = tripInfoData.cost;
 
 renderComponent(tripInfoContainer, getTripInfoMarkup(tripInfoData), `afterbegin`);
 renderComponent(menuHeader, getMenuMarkup(), `afterend`);

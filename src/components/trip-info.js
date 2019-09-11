@@ -4,8 +4,5 @@ export const getTripInfoMarkup = (tripInfoData) => {
 
   <p class="trip-info__dates">${tripInfoData.dateStart}&nbsp;&mdash;&nbsp;${tripInfoData.dateEnd}</p>
 
-  <p class="trip-info__cost">
-              Total: &euro;&nbsp;<span class="trip-info__cost-value">${tripInfoData.cost}</span>
-            </p>
 </div>`;
 };
