@@ -68,8 +68,7 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-// Рендер и анрендер для компонент
-export const render = (container, element, place) => {
+export const render = (container, element, place = Position.BEFOREEND) => {
   switch (place) {
     case Position.AFTERBEGIN:
       container.prepend(element);

@@ -1,10 +1,10 @@
 import {getEventData, getTripInfoData, getFilters} from './data';
-import {render, Position} from './utils';
+import {render, unrender, Position} from './utils';
 import {getMenuMarkup} from './components/menu';
-import {getFiltersMarkup} from './components/filters';
-import {getEditEventFormMarkup} from './components/edit-event-form';
+import {FiltersList} from './components/filters';
+import {EventEditForm} from './components/edit-event-form';
 import {getDaysListMarkup} from './components/days-list';
-import {getEventMarkup, Event} from './components/event';
+import {Event} from './components/event';
 import {getTripInfoMarkup} from './components/trip-info';
 import {getTripSortMarkup} from './components/trip-sort';
 
@@ -29,18 +29,12 @@ const renderEvent = (eventData) => {
   render(eventsContainer, event.getElement(), Position.BEFOREEND);
 };
 
-const renderEvents = (element, events) => {
-  for (let i = 0; i < events.length; i++) {
-    renderComponent(element, getEventMarkup(events[i]));
-  }
-};
-
 const events = generateEventsData(NUM_EVENTS);
 console.log(events);
 
 const tripInfoContainer = document.querySelector(`.trip-info`);
 const menuHeader = document.querySelector(`.trip-controls h2`);
-const filtersHeader = document.querySelectorAll(`.trip-controls h2`)[1];
+const tripControls = document.querySelector(`.trip-controls`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
 
 const tripInfoData = getTripInfoData(events);
@@ -51,12 +45,11 @@ renderComponent(tripInfoContainer, getTripInfoMarkup(tripInfoData), `afterbegin`
 renderComponent(menuHeader, getMenuMarkup(), `afterend`);
 
 let filters = getFilters(events);
-renderComponent(filtersHeader, getFiltersMarkup(filters), `afterend`);
+render(tripControls, new FiltersList(filters).getElement());
 renderComponent(tripEventsContainer, getTripSortMarkup());
-renderComponent(tripEventsContainer, getEditEventFormMarkup(events[0]));
+render(tripEventsContainer, new EventEditForm(events[0]).getElement(), Position.BEFOREEND);
 renderComponent(tripEventsContainer, getDaysListMarkup());
 
 const eventsContainer = document.querySelector(`.trip-events__list`);
-// renderEvents(eventsContainer, events.slice(1));
-events.slice(1).forEach((eventData) => renderEvent(eventData));
+events.forEach((eventData) => renderEvent(eventData));
 
