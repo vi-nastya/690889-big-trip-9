@@ -37,7 +37,6 @@ export const getEventData = () => ({
   photos: `http://picsum.photos/300/150?r=${Math.random()}`,
   description: getRandomArraySubset(DESCRIPTION_SENTENCES, getRandomNumber(MAX_DESCRIPTION_LENGTH, MIN_DESCRIPTION_LENGTH)).join(` `),
   price: getRandomNumber(MAX_PRICE, MIN_PRICE),
-  time: 0,
   dateStart: Date.now() + 1 + getRandomNumber(MAX_DATE_DELTA),
   duration: getRandomNumber(MAX_EVENT_DURATION, MIN_EVENT_DURATION),
   options: new Set([

@@ -1,10 +1,10 @@
-import {getEventData, getTripInfoData} from './data';
-import {getFilters} from './data';
+import {getEventData, getTripInfoData, getFilters} from './data';
+import {render, Position} from './utils';
 import {getMenuMarkup} from './components/menu';
 import {getFiltersMarkup} from './components/filters';
 import {getEditEventFormMarkup} from './components/edit-event-form';
 import {getDaysListMarkup} from './components/days-list';
-import {getEventMarkup} from './components/event';
+import {getEventMarkup, Event} from './components/event';
 import {getTripInfoMarkup} from './components/trip-info';
 import {getTripSortMarkup} from './components/trip-sort';
 
@@ -22,6 +22,11 @@ const generateEventsData = (numEvents) => {
 
 const renderComponent = (element, componentMarkup, position = `beforeend`) => {
   element.insertAdjacentHTML(position, componentMarkup);
+};
+
+const renderEvent = (eventData) => {
+  const event = new Event(eventData);
+  render(eventsContainer, event.getElement(), Position.BEFOREEND);
 };
 
 const renderEvents = (element, events) => {
@@ -52,4 +57,6 @@ renderComponent(tripEventsContainer, getEditEventFormMarkup(events[0]));
 renderComponent(tripEventsContainer, getDaysListMarkup());
 
 const eventsContainer = document.querySelector(`.trip-events__list`);
-renderEvents(eventsContainer, events.slice(1));
+// renderEvents(eventsContainer, events.slice(1));
+events.slice(1).forEach((eventData) => renderEvent(eventData));
+
