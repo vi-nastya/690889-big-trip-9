@@ -7,14 +7,6 @@ const renderFilter = (filterName, isSelected) => {
 </div>`.trim();
 };
 
-// export const getFiltersMarkup = (filtersList) => {
-//   return `<form class="trip-filters" action="#" method="get">
-//               ${filtersList.map((filter) => renderFilter(filter.name, filter.isSelected)).join(`\n`)}
-//               <button class="visually-hidden" type="submit">Accept filter</button>
-//             </form>`;
-// };
-
-
 export class FiltersList {
   constructor(filtersData) {
     this._data = filtersData;
@@ -26,6 +18,10 @@ export class FiltersList {
     }
 
     return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
   }
 
   getTemplate() {

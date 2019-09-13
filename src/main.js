@@ -1,9 +1,9 @@
 import {getEventData, getTripInfoData, getFilters} from './data';
 import {render, unrender, Position} from './utils';
-import {getMenuMarkup} from './components/menu';
+import {Menu} from './components/menu';
 import {FiltersList} from './components/filters';
 import {EventEditForm} from './components/edit-event-form';
-import {getDaysListMarkup} from './components/days-list';
+import {DaysList} from './components/days-list';
 import {Event} from './components/event';
 import {TripInfo} from './components/trip-info';
 import {TripSort} from './components/trip-sort';
@@ -20,10 +20,6 @@ const generateEventsData = (numEvents) => {
   });
 };
 
-const renderComponent = (element, componentMarkup, position = `beforeend`) => {
-  element.insertAdjacentHTML(position, componentMarkup);
-};
-
 const renderEvent = (eventData) => {
   const event = new Event(eventData);
   render(eventsContainer, event.getElement(), Position.BEFOREEND);
@@ -33,7 +29,6 @@ const events = generateEventsData(NUM_EVENTS);
 console.log(events);
 
 const tripInfoContainer = document.querySelector(`.trip-info`);
-const menuHeader = document.querySelector(`.trip-controls h2`);
 const tripControls = document.querySelector(`.trip-controls`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
 
@@ -42,13 +37,13 @@ const priceElement = document.querySelector(`.trip-info__cost-value`);
 priceElement.textContent = tripInfoData.cost;
 
 render(tripInfoContainer, new TripInfo(tripInfoData).getElement(), Position.AFTERBEGIN);
-renderComponent(menuHeader, getMenuMarkup(), `afterend`);
+render(tripControls, new Menu().getElement(), Position.AFTERBEGIN);
 
 let filters = getFilters(events);
 render(tripControls, new FiltersList(filters).getElement());
 render(tripEventsContainer, new TripSort().getElement());
 render(tripEventsContainer, new EventEditForm(events[0]).getElement(), Position.BEFOREEND);
-renderComponent(tripEventsContainer, getDaysListMarkup());
+render(tripEventsContainer, new DaysList().getElement());
 
 const eventsContainer = document.querySelector(`.trip-events__list`);
 events.forEach((eventData) => renderEvent(eventData));

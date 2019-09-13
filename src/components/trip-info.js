@@ -1,12 +1,5 @@
 import {createElement} from '../utils';
 
-// export const getTripInfoMarkup = (tripInfoData) => {
-//   return `<div class="trip-info__main">
-//   <h1 class="trip-info__title">${tripInfoData.route}</h1>
-//   <p class="trip-info__dates">${tripInfoData.dateStart}&nbsp;&mdash;&nbsp;${tripInfoData.dateEnd}</p>
-// </div>`;
-// };
-
 export class TripInfo {
   constructor(tripInfoData) {
     this._route = tripInfoData.route;
@@ -21,6 +14,10 @@ export class TripInfo {
     }
 
     return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
   }
 
   getTemplate() {
