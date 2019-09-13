@@ -29,7 +29,9 @@ export class Event {
   }
 
   removeElement() {
-    this._element = null;
+    if (this._element) {
+      this._element = null;
+    }
   }
 
   getTemplate() {

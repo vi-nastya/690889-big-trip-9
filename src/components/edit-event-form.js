@@ -28,7 +28,9 @@ export class EventEditForm {
   }
 
   removeElement() {
-    this._element = null;
+    if (this._element) {
+      this._element = null;
+    }
   }
 
   getTemplate() {
