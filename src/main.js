@@ -5,8 +5,8 @@ import {FiltersList} from './components/filters';
 import {EventEditForm} from './components/edit-event-form';
 import {getDaysListMarkup} from './components/days-list';
 import {Event} from './components/event';
-import {getTripInfoMarkup} from './components/trip-info';
-import {getTripSortMarkup} from './components/trip-sort';
+import {TripInfo} from './components/trip-info';
+import {TripSort} from './components/trip-sort';
 
 const NUM_EVENTS = 4;
 
@@ -41,12 +41,12 @@ const tripInfoData = getTripInfoData(events);
 const priceElement = document.querySelector(`.trip-info__cost-value`);
 priceElement.textContent = tripInfoData.cost;
 
-renderComponent(tripInfoContainer, getTripInfoMarkup(tripInfoData), `afterbegin`);
+render(tripInfoContainer, new TripInfo(tripInfoData).getElement(), Position.AFTERBEGIN);
 renderComponent(menuHeader, getMenuMarkup(), `afterend`);
 
 let filters = getFilters(events);
 render(tripControls, new FiltersList(filters).getElement());
-renderComponent(tripEventsContainer, getTripSortMarkup());
+render(tripEventsContainer, new TripSort().getElement());
 render(tripEventsContainer, new EventEditForm(events[0]).getElement(), Position.BEFOREEND);
 renderComponent(tripEventsContainer, getDaysListMarkup());
 
