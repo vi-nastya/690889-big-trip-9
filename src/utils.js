@@ -17,10 +17,8 @@ export const getRandomArraySubset = (arr, subsetSize) => {
 
 export const getRandomArrayElement = (arr) => arr[getRandomNumber(arr.length - 1)];
 
-// TODO
-
 export const getCities = (events) => {
-  events.reduce();
+  events.reduce(); // TODO
 };
 
 const getDurationParts = (duration) => {
@@ -59,7 +57,8 @@ export const getTimeFromTimestamp = (timestamp) => new Date(timestamp).toString(
 // -----------------------------------
 export const Position = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`
 };
 
 export const createElement = (template) => {
@@ -76,11 +75,15 @@ export const render = (container, element, place = Position.BEFOREEND) => {
     case Position.BEFOREEND:
       container.append(element);
       break;
+    case Position.AFTEREND:
+      container.after(element);
+      break;
   }
 };
 
 export const unrender = (element) => {
   if (element) {
     element.remove();
+    element.removeElement();
   }
 };

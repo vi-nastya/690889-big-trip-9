@@ -22,27 +22,55 @@ const generateEventsData = (numEvents) => {
 
 const renderEvent = (eventData) => {
   const event = new Event(eventData);
+  const eventEditForm = new EventEditForm(eventData);
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  event.getElement()
+    .querySelector(`.event__rollup-btn`)
+    .addEventListener(`click`, () => {
+      eventsContainer.replaceChild(eventEditForm.getElement(), event.getElement());
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+
+  eventEditForm.getElement()
+    .addEventListener(`submit`, () => {
+      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+
+  eventEditForm.getElement()
+    .querySelector(`.event__rollup-btn`)
+    .addEventListener(`click`, () => {
+      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+
   render(eventsContainer, event.getElement(), Position.BEFOREEND);
 };
 
 const events = generateEventsData(NUM_EVENTS);
-console.log(events);
 
 const tripInfoContainer = document.querySelector(`.trip-info`);
-const tripControls = document.querySelector(`.trip-controls`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
+const menuHeader = document.querySelectorAll(`.trip-controls h2`)[0];
+const filtersHeader = document.querySelectorAll(`.trip-controls h2`)[1];
 
 const tripInfoData = getTripInfoData(events);
 const priceElement = document.querySelector(`.trip-info__cost-value`);
 priceElement.textContent = tripInfoData.cost;
 
 render(tripInfoContainer, new TripInfo(tripInfoData).getElement(), Position.AFTERBEGIN);
-render(tripControls, new Menu().getElement(), Position.AFTERBEGIN);
+render(menuHeader, new Menu().getElement(), Position.AFTEREND);
 
 let filters = getFilters(events);
-render(tripControls, new FiltersList(filters).getElement());
+render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
 render(tripEventsContainer, new TripSort().getElement());
-render(tripEventsContainer, new EventEditForm(events[0]).getElement(), Position.BEFOREEND);
 render(tripEventsContainer, new DaysList().getElement());
 
 const eventsContainer = document.querySelector(`.trip-events__list`);
