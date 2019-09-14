@@ -4,44 +4,8 @@ import {Event} from './event';
 import {TripSort} from './trip-sort';
 import {DaysList} from './days-list';
 
-const renderEvent = (eventData, eventsContainer) => {
-  const event = new Event(eventData);
-  const eventEditForm = new EventEditForm(eventData);
-
-  const onEscKeyDown = (evt) => {
-    if (evt.key === `Escape` || evt.key === `Esc`) {
-      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    }
-  };
-
-  event.getElement()
-    .querySelector(`.event__rollup-btn`)
-    .addEventListener(`click`, () => {
-      eventsContainer.replaceChild(eventEditForm.getElement(), event.getElement());
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-  eventEditForm.getElement()
-    .addEventListener(`submit`, () => {
-      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-  eventEditForm.getElement()
-    .querySelector(`.event__rollup-btn`)
-    .addEventListener(`click`, () => {
-      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-  render(eventsContainer, event.getElement(), Position.BEFOREEND);
-};
-
-
-export class TripController extends AbstractComponent {
+export class TripController {
   constructor(container, eventsData) {
-    super();
     this._container = container;
     this._events = eventsData;
     this._sort = new TripSort();
@@ -57,6 +21,40 @@ export class TripController extends AbstractComponent {
 
     this._eventsContainer = document.querySelector(`.trip-events__list`);
 
-    this._events.forEach((eventData) => renderEvent(eventData, this._eventsContainer));
+    this._events.forEach((eventData) => this._renderEvent(eventData));
+  }
+
+  _renderEvent(eventData) {
+    const event = new Event(eventData);
+    const eventEditForm = new EventEditForm(eventData);
+
+    const onEscKeyDown = (evt) => {
+      if (evt.key === `Escape` || evt.key === `Esc`) {
+        this._eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      }
+    };
+
+    event.getElement()
+      .querySelector(`.event__rollup-btn`)
+      .addEventListener(`click`, () => {
+        this._eventsContainer.replaceChild(eventEditForm.getElement(), event.getElement());
+        document.addEventListener(`keydown`, onEscKeyDown);
+      });
+
+    eventEditForm.getElement()
+      .addEventListener(`submit`, () => {
+        this._eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      });
+
+    eventEditForm.getElement()
+      .querySelector(`.event__rollup-btn`)
+      .addEventListener(`click`, () => {
+        this._eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      });
+
+    render(this._eventsContainer, event.getElement(), Position.BEFOREEND);
   }
 }
