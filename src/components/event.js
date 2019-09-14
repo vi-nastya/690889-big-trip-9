@@ -1,4 +1,4 @@
-import {formatDuration, getTimeFromTimestamp, createElement, AbstractComponent} from '../utils';
+import {formatDuration, getTimeFromTimestamp, AbstractComponent} from '../utils';
 
 const renderOffer = (offerData) => {
   return `<li class="event__offer">

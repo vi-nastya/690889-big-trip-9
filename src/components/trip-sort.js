@@ -1,20 +1,7 @@
-import {createElement} from '../utils';
-export class TripSort {
+import {AbstractComponent} from '../utils';
+export class TripSort extends AbstractComponent {
   constructor() {
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
+    super();
   }
 
   getTemplate() {
