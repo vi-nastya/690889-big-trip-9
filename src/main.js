@@ -1,12 +1,12 @@
-import {getEventData, getTripInfoData} from './data';
-import {getFilters} from './data';
-import {getMenuMarkup} from './components/menu';
-import {getFiltersMarkup} from './components/filters';
-import {getEditEventFormMarkup} from './components/edit-event-form';
-import {getDaysListMarkup} from './components/days-list';
-import {getEventMarkup} from './components/event';
-import {getTripInfoMarkup} from './components/trip-info';
-import {getTripSortMarkup} from './components/trip-sort';
+import {getEventData, getTripInfoData, getFilters} from './data';
+import {render, unrender, Position} from './utils';
+import {Menu} from './components/menu';
+import {FiltersList} from './components/filters';
+import {EventEditForm} from './components/edit-event-form';
+import {DaysList} from './components/days-list';
+import {Event} from './components/event';
+import {TripInfo} from './components/trip-info';
+import {TripSort} from './components/trip-sort';
 
 const NUM_EVENTS = 4;
 
@@ -20,36 +20,59 @@ const generateEventsData = (numEvents) => {
   });
 };
 
-const renderComponent = (element, componentMarkup, position = `beforeend`) => {
-  element.insertAdjacentHTML(position, componentMarkup);
-};
+const renderEvent = (eventData) => {
+  const event = new Event(eventData);
+  const eventEditForm = new EventEditForm(eventData);
 
-const renderEvents = (element, events) => {
-  for (let i = 0; i < events.length; i++) {
-    renderComponent(element, getEventMarkup(events[i]));
-  }
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  event.getElement()
+    .querySelector(`.event__rollup-btn`)
+    .addEventListener(`click`, () => {
+      eventsContainer.replaceChild(eventEditForm.getElement(), event.getElement());
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+
+  eventEditForm.getElement()
+    .addEventListener(`submit`, () => {
+      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+
+  eventEditForm.getElement()
+    .querySelector(`.event__rollup-btn`)
+    .addEventListener(`click`, () => {
+      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+
+  render(eventsContainer, event.getElement(), Position.BEFOREEND);
 };
 
 const events = generateEventsData(NUM_EVENTS);
-console.log(events);
 
 const tripInfoContainer = document.querySelector(`.trip-info`);
-const menuHeader = document.querySelector(`.trip-controls h2`);
-const filtersHeader = document.querySelectorAll(`.trip-controls h2`)[1];
 const tripEventsContainer = document.querySelector(`.trip-events`);
+const menuHeader = document.querySelectorAll(`.trip-controls h2`)[0];
+const filtersHeader = document.querySelectorAll(`.trip-controls h2`)[1];
 
 const tripInfoData = getTripInfoData(events);
 const priceElement = document.querySelector(`.trip-info__cost-value`);
 priceElement.textContent = tripInfoData.cost;
 
-renderComponent(tripInfoContainer, getTripInfoMarkup(tripInfoData), `afterbegin`);
-renderComponent(menuHeader, getMenuMarkup(), `afterend`);
+render(tripInfoContainer, new TripInfo(tripInfoData).getElement(), Position.AFTERBEGIN);
+render(menuHeader, new Menu().getElement(), Position.AFTEREND);
 
 let filters = getFilters(events);
-renderComponent(filtersHeader, getFiltersMarkup(filters), `afterend`);
-renderComponent(tripEventsContainer, getTripSortMarkup());
-renderComponent(tripEventsContainer, getEditEventFormMarkup(events[0]));
-renderComponent(tripEventsContainer, getDaysListMarkup());
+render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
+render(tripEventsContainer, new TripSort().getElement());
+render(tripEventsContainer, new DaysList().getElement());
 
 const eventsContainer = document.querySelector(`.trip-events__list`);
-renderEvents(eventsContainer, events.slice(1));
+events.forEach((eventData) => renderEvent(eventData));
+

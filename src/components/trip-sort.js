@@ -1,5 +1,24 @@
-export const getTripSortMarkup = () => {
-  return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
+import {createElement} from '../utils';
+export class TripSort {
+  constructor() {
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    if (this._element) {
+      this._element = null;
+    }
+  }
+
+  getTemplate() {
+    return `<form class="trip-events__trip-sort  trip-sort" action="#" method="get">
   <span class="trip-sort__item  trip-sort__item--day">Day</span>
 
   <div class="trip-sort__item  trip-sort__item--event">
@@ -29,4 +48,5 @@ export const getTripSortMarkup = () => {
 
   <span class="trip-sort__item  trip-sort__item--offers">Offers</span>
 </form>`;
-};
+  }
+}
