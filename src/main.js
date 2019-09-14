@@ -7,6 +7,7 @@ import {DaysList} from './components/days-list';
 import {Event} from './components/event';
 import {TripInfo} from './components/trip-info';
 import {TripSort} from './components/trip-sort';
+import {TripController} from './components/trip-controller';
 
 const NUM_EVENTS = 4;
 
@@ -18,40 +19,6 @@ const generateEventsData = (numEvents) => {
   return events.sort((e1, e2) => {
     return e1.dateStart < e2.dateStart;
   });
-};
-
-const renderEvent = (eventData) => {
-  const event = new Event(eventData);
-  const eventEditForm = new EventEditForm(eventData);
-
-  const onEscKeyDown = (evt) => {
-    if (evt.key === `Escape` || evt.key === `Esc`) {
-      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    }
-  };
-
-  event.getElement()
-    .querySelector(`.event__rollup-btn`)
-    .addEventListener(`click`, () => {
-      eventsContainer.replaceChild(eventEditForm.getElement(), event.getElement());
-      document.addEventListener(`keydown`, onEscKeyDown);
-    });
-
-  eventEditForm.getElement()
-    .addEventListener(`submit`, () => {
-      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-  eventEditForm.getElement()
-    .querySelector(`.event__rollup-btn`)
-    .addEventListener(`click`, () => {
-      eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-  render(eventsContainer, event.getElement(), Position.BEFOREEND);
 };
 
 const events = generateEventsData(NUM_EVENTS);
@@ -74,5 +41,6 @@ render(tripEventsContainer, new TripSort().getElement());
 render(tripEventsContainer, new DaysList().getElement());
 
 const eventsContainer = document.querySelector(`.trip-events__list`);
-events.forEach((eventData) => renderEvent(eventData));
 
+let tripController = new TripController(eventsContainer, events);
+tripController.init();

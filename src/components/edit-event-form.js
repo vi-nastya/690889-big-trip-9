@@ -1,4 +1,4 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, createElement} from '../utils';
+import {TRANSFER_TYPES, ACTIVITY_TYPES, AbstractComponent} from '../utils';
 
 const renderTypeSelector = (type, selectedType) => {
   return `<div class="event__type-item">
@@ -7,8 +7,9 @@ const renderTypeSelector = (type, selectedType) => {
 </div>`;
 };
 
-export class EventEditForm {
+export class EventEditForm extends AbstractComponent {
   constructor(eventData) {
+    super();
     this._type = eventData.type;
     this._city = eventData.city;
     this._photos = eventData.photos;
@@ -17,20 +18,6 @@ export class EventEditForm {
     this._dateStart = eventData.dateStart;
     this._duration = eventData.duration;
     this._options = eventData.options;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
   }
 
   getTemplate() {

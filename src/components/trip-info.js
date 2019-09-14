@@ -1,25 +1,12 @@
-import {createElement} from '../utils';
+import {AbstractComponent} from '../utils';
 
-export class TripInfo {
+export class TripInfo extends AbstractComponent {
   constructor(tripInfoData) {
+    super();
     this._route = tripInfoData.route;
     this._dateStart = tripInfoData.dateStart;
     this._dateEnd = tripInfoData.dateEnd;
     this._cost = tripInfoData.cost;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
   }
 
   getTemplate() {

@@ -1,4 +1,4 @@
-import {createElement} from '../utils';
+import {AbstractComponent} from '../utils';
 
 const renderFilter = (filterName, isSelected) => {
   return `<div class="trip-filters__filter">
@@ -7,23 +7,10 @@ const renderFilter = (filterName, isSelected) => {
 </div>`.trim();
 };
 
-export class FiltersList {
+export class FiltersList extends AbstractComponent {
   constructor(filtersData) {
+    super();
     this._data = filtersData;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
   }
 
   getTemplate() {
