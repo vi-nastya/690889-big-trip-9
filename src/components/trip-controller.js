@@ -1,6 +1,7 @@
 import {AbstractComponent, render, Position} from '../utils';
 import {EventEditForm} from './edit-event-form';
 import {Event} from './event';
+import {TripSort} from './trip-sort';
 
 const renderEvent = (eventData, eventsContainer) => {
   const event = new Event(eventData);
@@ -42,6 +43,7 @@ export class TripController extends AbstractComponent {
     super();
     this._container = container;
     this._events = eventsData;
+    this._sort = new TripSort();
   }
 
   init() {
