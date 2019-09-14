@@ -1,4 +1,4 @@
-import {formatDuration, getTimeFromTimestamp, createElement} from '../utils';
+import {formatDuration, getTimeFromTimestamp, createElement, AbstractComponent} from '../utils';
 
 const renderOffer = (offerData) => {
   return `<li class="event__offer">
@@ -8,8 +8,9 @@ const renderOffer = (offerData) => {
  </li>`;
 };
 
-export class Event {
+export class Event extends AbstractComponent {
   constructor(eventData) {
+    super();
     this._type = eventData.type;
     this._city = eventData.city;
     this._photos = eventData.photos;
@@ -18,20 +19,6 @@ export class Event {
     this._dateStart = eventData.dateStart;
     this._duration = eventData.duration;
     this._options = eventData.options;
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    if (this._element) {
-      this._element = null;
-    }
   }
 
   getTemplate() {
