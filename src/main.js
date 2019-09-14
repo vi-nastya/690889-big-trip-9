@@ -37,10 +37,8 @@ render(menuHeader, new Menu().getElement(), Position.AFTEREND);
 
 let filters = getFilters(events);
 render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
-render(tripEventsContainer, new TripSort().getElement());
-render(tripEventsContainer, new DaysList().getElement());
+// render(tripEventsContainer, new TripSort().getElement());
+// render(tripEventsContainer, new DaysList().getElement());
 
-const eventsContainer = document.querySelector(`.trip-events__list`);
-
-let tripController = new TripController(eventsContainer, events);
+let tripController = new TripController(tripEventsContainer, events);
 tripController.init();
