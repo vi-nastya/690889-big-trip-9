@@ -1,10 +1,9 @@
 import {AbstractComponent} from '../utils';
 
 export class Day extends AbstractComponent {
-  constructor(date, numDays) {
+  constructor(date) {
     super();
     this._date = date;
-    this._numDays = numDays;
   }
 
   getTemplate() {
