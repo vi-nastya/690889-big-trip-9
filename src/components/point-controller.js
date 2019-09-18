@@ -1,6 +1,9 @@
 import {render, Position} from '../utils';
 import {EventEditForm} from './edit-event-form';
 import {Event} from './event';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/themes/light.css';
 
 export class PointController {
   constructor(container, eventData, onDataChange, onChangeView) {
@@ -12,6 +15,22 @@ export class PointController {
     this._eventEdit = new EventEditForm(this._eventData);
 
     this.init();
+
+    flatpickr(this._eventEdit.getElement().querySelector(`#event-start-time-1`), {
+      altInput: true,
+      allowInput: true,
+      enableTime: true,
+      defaultDate: this._eventData.dateStart,
+      altFormat: `d/m/Y H:i`,
+    });
+
+    flatpickr(this._eventEdit.getElement().querySelector(`#event-end-time-1`), {
+      altInput: true,
+      allowInput: true,
+      enableTime: true,
+      defaultDate: this._eventData.dateStart + this._eventData.duration,
+      altFormat: `d/m/Y H:i`,
+    });
   }
 
   init() {
