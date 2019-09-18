@@ -9,10 +9,10 @@ export class PointController {
     this._eventView = new Event(this._eventData);
     this._eventEdit = new EventEditForm(this._eventData);
 
-    this.create();
+    this.init();
   }
 
-  create() {
+  init() {
     // event <-> eventEditForm
     const onEscKeyDown = (evt) => {
       if (evt.key === `Escape` || evt.key === `Esc`) {

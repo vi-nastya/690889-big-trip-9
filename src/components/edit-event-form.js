@@ -34,13 +34,13 @@ export class EventEditForm extends AbstractComponent {
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Transfer</legend>
 
-            ${TRANSFER_TYPES.map((t) => renderTypeSelector(t, this._type))}
+            ${TRANSFER_TYPES.map((t) => renderTypeSelector(t, this._type)).join(`\n`)}
           </fieldset>
 
           <fieldset class="event__type-group">
             <legend class="visually-hidden">Activity</legend>
 
-            ${ACTIVITY_TYPES.map((t) => renderTypeSelector(t, this._type))}
+            ${ACTIVITY_TYPES.map((t) => renderTypeSelector(t, this._type)).join(`\n`)}
           </fieldset>
         </div>
       </div>
