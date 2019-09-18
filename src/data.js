@@ -1,6 +1,6 @@
 import {getRandomBoolean, getRandomNumber, getRandomArraySubset, getRandomArrayElement,
   MILLISECONDS_IN_DAY, MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MINUTE,
-  EVENT_TYPES} from './utils';
+  EVENT_TYPES, CITIES} from './utils';
 
 const DESCRIPTION_SENTENCES = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
@@ -14,7 +14,6 @@ const DESCRIPTION_SENTENCES = [
   `Nunc fermentum tortor ac porta dapibus.`,
   `In rutrum ac purus sit amet tempus.`
 ];
-const CITIES = [`Vancouver`, `Squamish`, `Whistler`, `Kamloops`, `Revelstoke`, `Canmore`, `Banff`, `Calgary`];
 const MIN_DESCRIPTION_LENGTH = 1;
 const MAX_DESCRIPTION_LENGTH = 3;
 const MIN_PRICE = 0;
