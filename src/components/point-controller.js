@@ -3,8 +3,10 @@ import {EventEditForm} from './edit-event-form';
 import {Event} from './event';
 
 export class PointController {
-  constructor(container, eventData) {
+  constructor(container, eventData, onDataChange, onChangeView) {
     this._container = container;
+    this._onDataChange = onDataChange;
+    this._onChangeView = onChangeView;
     this._eventData = eventData;
     this._eventView = new Event(this._eventData);
     this._eventEdit = new EventEditForm(this._eventData);
@@ -33,13 +35,15 @@ export class PointController {
         // handle event edit
         evt.preventDefault();
 
-        const formData = new FormData(this._eventEdit.getElement().querySelector(`.event--edit`));
+        const formData = new FormData(this._eventEdit.getElement());
+        console.log(`FORMDATA: `, formData);
 
         const entry = {
-          description: formData.get(`text`),
-          color: formData.get(`color`),
-          tags: new Set(formData.getAll(`hashtag`)),
-          dueDate: new Date(formData.get(`date`)),
+          city: formData.get(`event-destination`),
+          dateStart: formData.get(`event-start-time`),
+          dateEnd: formData.get(`event-end-time`),
+          price: formData.get(`event-price`),
+          // TODO: offers:  formData.get(`event-offer-seats) returns `on` or NULL
         };
 
         // find corresponding event
@@ -60,14 +64,6 @@ export class PointController {
       });
 
     render(this._container, this._eventView.getElement(), Position.BEFOREEND);
-  }
-
-  onDataChange() {
-
-  }
-
-  onChangeView() {
-
   }
 
   setDefaultView() {
