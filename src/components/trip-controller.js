@@ -11,6 +11,10 @@ export class TripController {
     this._sort = new TripSort();
     this._daysList = new DaysList();
     this._eventsContainer = null;
+
+    this._subscriptions = [];
+    this._onChangeView = this._onChangeView.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
   init() {
@@ -79,16 +83,19 @@ export class TripController {
   }
 
   _renderEvent(eventData, eventsContainer) {
-    new PointController(eventsContainer, eventData, this._onDataChange, this._onChangeView);
+    const pointController = new PointController(eventsContainer, eventData, this._onDataChange, this._onChangeView);
+    this._subscriptions.push(pointController.setDefaultView.bind(pointController));
   }
 
   _onDataChange(newData, oldData) {
     this._events[this._events.findIndex((it) => it === oldData)] = newData;
 
-    this._renderEvents();
+    this._renderEventsByDate(this._events);
   }
 
-  _onChangeView() {}
+  _onChangeView() {
+    this._subscriptions.forEach((it) => it());
+  }
 
   _onSortLinkClick(evt) {
     evt.preventDefault();
@@ -97,26 +104,20 @@ export class TripController {
       return;
     }
 
-    //this._defaultEventsContainer.innerHTML = ``;
-
     switch (evt.target.dataset.sortType) {
       case `time`:
         const eventsSortedByTime = this._events.slice().sort((e1, e2) => (e2.duration - e1.duration));
         this._renderEventsNoDays(eventsSortedByTime);
-        //eventsSortedByTime.forEach((eventData) => this._renderEvent(eventData, this._defaultEventsContainer));
         evt.target.previousElementSibling.checked = true;
         break;
       case `price`:
         const eventsSortedByPrice = this._events.slice().sort((e1, e2) => e2.price - e1.price);
         this._renderEventsNoDays(eventsSortedByPrice);
-        //eventsSortedByPrice.forEach((eventData) => this._renderEvent(eventData, this._defaultEventsContainer));
 
         evt.target.previousElementSibling.checked = true;
         break;
       case `default`:
         this._renderEventsByDate(this._events);
-
-        //this._events.forEach((eventData) => this._renderEvent(eventData, this._eventsContainer));
         evt.target.previousElementSibling.checked = true;
         break;
     }

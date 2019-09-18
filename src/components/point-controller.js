@@ -26,6 +26,7 @@ export class PointController {
     this._eventView.getElement()
       .querySelector(`.event__rollup-btn`)
       .addEventListener(`click`, () => {
+        this._onChangeView();
         this._container.replaceChild(this._eventEdit.getElement(), this._eventView.getElement());
         document.addEventListener(`keydown`, onEscKeyDown);
       });
@@ -36,21 +37,20 @@ export class PointController {
         evt.preventDefault();
 
         const formData = new FormData(this._eventEdit.getElement());
-        console.log(`FORMDATA: `, formData);
 
         const entry = {
           city: formData.get(`event-destination`),
-          dateStart: formData.get(`event-start-time`),
-          dateEnd: formData.get(`event-end-time`),
+          dateStart: Date.now(), //formData.get(`event-start-time`),
+          dateEnd: Date.now() + 3000000, //formData.get(`event-end-time`),
           price: formData.get(`event-price`),
+          options: [],
+          type: formData.get(`event-type`),
           // TODO: offers:  formData.get(`event-offer-seats) returns `on` or NULL
         };
 
+        console.log(entry);
         // find corresponding event
-        this._tasks[this._tasks.findIndex((it) => it === task)] = entry;
-
-        // rerender events
-        this._renderBoard(this._tasks);
+        this._onDataChange(entry, this._eventData);
         //
         this._container.replaceChild(this._eventView.getElement(), this._eventEdit.getElement());
         document.removeEventListener(`keydown`, onEscKeyDown);
@@ -67,8 +67,8 @@ export class PointController {
   }
 
   setDefaultView() {
-    if (this._container.getElement().contains(this._eventEdit.getElement())) {
-      this._container.getElement().replaceChild(this._eventView.getElement(), this._eventEdit.getElement());
+    if (this._container.contains(this._eventEdit.getElement())) {
+      this._container.replaceChild(this._eventView.getElement(), this._eventEdit.getElement());
     }
   }
 }
