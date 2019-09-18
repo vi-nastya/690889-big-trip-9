@@ -9,7 +9,7 @@ import {TripInfo} from './components/trip-info';
 import {TripSort} from './components/trip-sort';
 import {TripController} from './components/trip-controller';
 
-const NUM_EVENTS = 4;
+const NUM_EVENTS = 10;
 
 const generateEventsData = (numEvents) => {
   let events = [];

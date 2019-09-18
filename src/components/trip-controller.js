@@ -1,6 +1,4 @@
-import {render, Position} from '../utils';
-import {EventEditForm} from './edit-event-form';
-import {Event} from './event';
+import {render} from '../utils';
 import {TripSort} from './trip-sort';
 import {DaysList} from './days-list';
 import {Day} from './day';
@@ -39,16 +37,31 @@ export class TripController {
 
   // [['date', [events]], ...]
 
-  _renderEventsByDate (eventsByDateData) {
-    // render DaysList
-    eventsByDateData.map((date, eventsList) => {
-      // render days container
-      render(this._container, new Day(date).getElement());
-      const currentDayContainer = document.querySelectorAll(`.trip-events__list`).slice(-1)[0];
-      // render events for that day
-      this._renderEvents(eventsList, currentDayContainer);
+  _sortEventsByDate (eventsData) {
+    let eventsByDate = [];
+    eventsData.map((event) => {
+      const eventDateAsString = new Date(event.dateStart).toString().slice(4, 10);
+      if (eventDateAsString in eventsByDate) {
+        eventsByDate[eventDateAsString].push(event);
+      } else {
+        eventsByDate[eventDateAsString] = [event];
+      }
     });
-    // render events to that container
+    return eventsByDate;
+  }
+
+  _renderEventsByDate(eventsByDateData) {
+    const dates = Object.keys(eventsByDateData);
+    const daysList = document.querySelector(`.trip-days`);
+    daysList.innerHTML = ``;
+    // render DaysList
+    dates.map((date, dayNum) => {
+      // render days container
+      render(daysList, new Day(date, dayNum + 1).getElement());
+      const currentDayContainer = Array.from(document.querySelectorAll(`.trip-events__list`)).slice(-1)[0];
+      // render events for that day
+      this._renderEvents(eventsByDateData[date], currentDayContainer);
+    });
   }
 
   _renderEvent(eventData, eventsContainer) {
@@ -84,8 +97,10 @@ export class TripController {
         evt.target.previousElementSibling.checked = true;
         break;
       case `default`:
-        // TODO: split events by date, render by date
-        this._events.forEach((eventData) => this._renderEvent(eventData, this._eventsContainer));
+        const eventsSortedByDate = this._sortEventsByDate(this._events);
+        this._renderEventsByDate(eventsSortedByDate);
+
+        //this._events.forEach((eventData) => this._renderEvent(eventData, this._eventsContainer));
         evt.target.previousElementSibling.checked = true;
         break;
     }
