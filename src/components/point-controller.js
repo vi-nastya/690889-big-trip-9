@@ -1,4 +1,4 @@
-import {render, Position, createElement} from '../utils';
+import {render, Position} from '../utils';
 import {EventEditForm} from './edit-event-form';
 import {Event} from './event';
 
@@ -40,15 +40,14 @@ export class PointController {
 
         const entry = {
           city: formData.get(`event-destination`),
-          dateStart: Date.now(), //formData.get(`event-start-time`),
-          dateEnd: Date.now() + 3000000, //formData.get(`event-end-time`),
+          dateStart: Date.now(), // formData.get(`event-start-time`),
+          dateEnd: Date.now() + 3000000, // formData.get(`event-end-time`),
           price: formData.get(`event-price`),
           options: [],
           type: formData.get(`event-type`),
           // TODO: offers:  formData.get(`event-offer-seats) returns `on` or NULL
         };
 
-        console.log(entry);
         // find corresponding event
         this._onDataChange(entry, this._eventData);
         //

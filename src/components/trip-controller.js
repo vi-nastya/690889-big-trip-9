@@ -47,13 +47,7 @@ export class TripController {
     this._renderEvents(eventsData, defaultEventsContainer);
   }
 
-  // EventsByDate data: date -> sorted list of events
-  // rendering: daysList -> for each date: dateContainer + list of events
-  // eventData changes -> sort everything and render
-
-  // [['date', [events]], ...]
-
-  _sortEventsByDate (eventsData) {
+  _sortEventsByDate(eventsData) {
     let eventsByDate = {};
 
     eventsData.forEach((event) => {
