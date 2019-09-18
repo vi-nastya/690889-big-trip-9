@@ -3,6 +3,7 @@ import {EventEditForm} from './edit-event-form';
 import {Event} from './event';
 import {TripSort} from './trip-sort';
 import {DaysList} from './days-list';
+import {PointController} from './point-controller';
 
 export class TripController {
   constructor(container, eventsData) {
@@ -27,37 +28,13 @@ export class TripController {
   }
 
   _renderEvent(eventData) {
-    const event = new Event(eventData);
-    const eventEditForm = new EventEditForm(eventData);
+    new PointController(this._eventsContainer, eventData);
+  }
 
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        this._eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
+  _onDataChange(newData, oldData) {
+    this._events[this._events.findIndex((it) => it === oldData)] = newData;
 
-    event.getElement()
-      .querySelector(`.event__rollup-btn`)
-      .addEventListener(`click`, () => {
-        this._eventsContainer.replaceChild(eventEditForm.getElement(), event.getElement());
-        document.addEventListener(`keydown`, onEscKeyDown);
-      });
-
-    eventEditForm.getElement()
-      .addEventListener(`submit`, () => {
-        this._eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      });
-
-    eventEditForm.getElement()
-      .querySelector(`.event__rollup-btn`)
-      .addEventListener(`click`, () => {
-        this._eventsContainer.replaceChild(event.getElement(), eventEditForm.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      });
-
-    render(this._eventsContainer, event.getElement(), Position.BEFOREEND);
+    this._renderBoard(this._events);
   }
 
   _onSortLinkClick(evt) {
