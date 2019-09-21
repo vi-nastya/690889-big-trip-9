@@ -81,6 +81,11 @@ export class PointController {
         document.removeEventListener(`keydown`, onEscKeyDown);
       });
 
+    // handle delete event
+    this._eventEdit.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, () => {
+      this._onDataChange(null, this._eventData);
+    });
+
     render(this._container, this._eventView.getElement(), Position.BEFOREEND);
   }
 

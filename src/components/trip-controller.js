@@ -96,7 +96,13 @@ export class TripController {
   }
 
   _onDataChange(newData, oldData) {
-    this._events[this._events.findIndex((it) => it === oldData)] = newData;
+    const index = this._events.findIndex((event) => event === oldData);
+
+    if (newData === null) {
+      this._events = [...this._events.slice(0, index), ...this._events.slice(index + 1)];
+    } else {
+      this._events[index] = newData;
+    }
 
     this._renderEventsByDate(this._events);
   }
