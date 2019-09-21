@@ -4,7 +4,7 @@ import {Menu} from './components/menu';
 import {FiltersList} from './components/filters';
 import {TripInfo} from './components/trip-info';
 import {TripController} from './components/trip-controller';
-import {Stats} from './components/stats';
+import {Statistics} from './components/statistics';
 
 const NUM_EVENTS = 10;
 
@@ -30,7 +30,8 @@ const priceElement = document.querySelector(`.trip-info__cost-value`);
 priceElement.textContent = tripInfoData.cost;
 
 render(tripInfoContainer, new TripInfo(tripInfoData).getElement(), Position.AFTERBEGIN);
-render(menuHeader, new Menu().getElement(), Position.AFTEREND);
+const menu = new Menu();
+render(menuHeader, menu.getElement(), Position.AFTEREND);
 
 let filters = getFilters(events);
 render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
@@ -41,4 +42,27 @@ let tripController = new TripController(tripEventsContainer, events);
 tripController.init();
 
 const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
-render(statsContainer, new Stats().getElement(), Position.BEFOREEND);
+const statistics = new Statistics();
+statistics.getElement().classList.add(`visually-hidden`);
+render(statsContainer, statistics.getElement(), Position.BEFOREEND);
+
+menu.getElement().addEventListener(`click`, (evt) => {
+  evt.preventDefault();
+
+  if (evt.target.tagName !== `A`) {
+    return;
+  }
+
+  switch (evt.target.id) {
+    case `menu-table`:
+      if (!statistics.getElement().classList.contains(`visually-hidden`)) {
+        statistics.getElement().classList.add(`visually-hidden`);
+      }
+      tripController.show();
+      break;
+    case `menu-stats`:
+      statistics.getElement().classList.remove(`visually-hidden`);
+      tripController.hide();
+      break;
+  }
+});

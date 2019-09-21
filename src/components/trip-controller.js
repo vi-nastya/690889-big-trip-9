@@ -15,6 +15,8 @@ export class TripController {
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
+
+    this._eventsElement = document.querySelector(`.trip-events`);
   }
 
   init() {
@@ -34,6 +36,18 @@ export class TripController {
 
   _renderEvents(eventsData, container) {
     eventsData.forEach((eventData) => this._renderEvent(eventData, container));
+  }
+
+  hide() {
+    if (!this._eventsElement.classList.contains(`visually-hidden`)) {
+      document.querySelector(`.trip-events`).classList.add(`visually-hidden`);
+    }
+  }
+
+  show() {
+    if (this._eventsElement.classList.contains(`visually-hidden`)) {
+      document.querySelector(`.trip-events`).classList.remove(`visually-hidden`);
+    }
   }
 
   _unrenderEvents() {
