@@ -2,12 +2,9 @@ import {getEventData, getTripInfoData, getFilters} from './data';
 import {render, unrender, Position} from './utils';
 import {Menu} from './components/menu';
 import {FiltersList} from './components/filters';
-import {EventEditForm} from './components/edit-event-form';
-import {DaysList} from './components/days-list';
-import {Event} from './components/event';
 import {TripInfo} from './components/trip-info';
-import {TripSort} from './components/trip-sort';
 import {TripController} from './components/trip-controller';
+import {Stats} from './components/stats';
 
 const NUM_EVENTS = 10;
 
@@ -42,3 +39,6 @@ render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
 
 let tripController = new TripController(tripEventsContainer, events);
 tripController.init();
+
+const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
+render(statsContainer, new Stats().getElement(), Position.BEFOREEND);
