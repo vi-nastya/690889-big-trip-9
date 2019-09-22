@@ -1,7 +1,7 @@
 import {AbstractComponent} from '../utils';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {TRANSFER_TYPES, ACTIVITY_TYPES} from '../utils';
+import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPES} from '../utils';
 
 export class Statistics extends AbstractComponent {
   constructor(eventsData) {
@@ -32,18 +32,18 @@ export class Statistics extends AbstractComponent {
     const transportChartElement = document.querySelector(`.statistics__chart--transport`);
     const timeChartElement = document.querySelector(`.statistics__chart--time`);
 
+    const transportChart = new Chart(transportChartElement, this._getChartConfig(`Transport`, this._getTransportData()));
+    const moneyChart = new Chart(moneyChartElement, this._getChartConfig(`Money`, this._getMoneyData()));
+  }
 
-    const trData = this._getTransportData();
-    console.log(trData.map((type) => type.value));
-    // this._transportChart = new Chart(transportChart, this._getChartConfig(`TRANSPORT`, this._getTransportData()));
-
-    const transportChart = new Chart(transportChartElement, {
+  _getChartConfig(title, data) {
+    return {
       plugins: [ChartDataLabels],
       type: `horizontalBar`,
       data: {
-        labels: trData.map((item) => item.name),
+        labels: data.map((item) => item.name),
         datasets: [{
-          data: trData.map((item) => item.value)
+          data: data.map((item) => item.value)
         }]
       },
       options: {
@@ -71,7 +71,7 @@ export class Statistics extends AbstractComponent {
       },
       title: {
         display: true,
-        text: `TRANSPORT`,
+        text: title,
         fontSize: 16,
         fontColor: `#000000`
       },
@@ -82,10 +82,10 @@ export class Statistics extends AbstractComponent {
           padding: 25,
           fontStyle: 500,
           fontColor: `#000000`,
-          fontSize: 13
+          fontSize: 16
         }
       }
-    });
+    };
   }
 
   _getTransportData() {
@@ -98,11 +98,17 @@ export class Statistics extends AbstractComponent {
     }).filter((dt) => (dt.value > 0));
   }
 
-
   _getMoneyData() {
-    // event type -> total cost
-
+    // type of event -> total cost
+    return EVENT_TYPES.map((type) => {
+      const events = this._eventsData.filter((event) => event.type === type);
+      return {
+        name: type,
+        value: events.length ? events.map((event) => event.price).reduce((accumulator, currentValue) => accumulator + currentValue) : 0
+      };
+    }).filter((dt) => (dt.value > 0));
   }
+
 
   _getTimeData() {
     // ? destination -> total time spent ?
