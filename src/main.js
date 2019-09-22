@@ -66,3 +66,8 @@ menu.getElement().addEventListener(`click`, (evt) => {
       break;
   }
 });
+
+const addNewEventButton = document.querySelector(`.trip-main__event-add-btn`);
+addNewEventButton.addEventListener(`click`, () => {
+  tripController.createEvent();
+});

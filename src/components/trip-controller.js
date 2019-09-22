@@ -2,7 +2,7 @@ import {render} from '../utils';
 import {TripSort} from './trip-sort';
 import {DaysList} from './days-list';
 import {Day} from './day';
-import {PointController} from './point-controller';
+import {Mode, PointController} from './point-controller';
 
 export class TripController {
   constructor(container, eventsData) {
@@ -11,6 +11,7 @@ export class TripController {
     this._sort = new TripSort();
     this._daysList = new DaysList();
     this._eventsContainer = null;
+    this._creatingEvent = null;
 
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);
@@ -91,15 +92,40 @@ export class TripController {
   }
 
   _renderEvent(eventData, eventsContainer) {
-    const pointController = new PointController(eventsContainer, eventData, this._onDataChange, this._onChangeView);
+    const pointController = new PointController(eventsContainer, eventData, Mode.DEFAULT, this._onDataChange, this._onChangeView);
     this._subscriptions.push(pointController.setDefaultView.bind(pointController));
   }
 
+  createEvent() {
+    if (this._creatingEvent) {
+      return;
+    }
+
+    const defaultEvent = {
+      city: ``,
+      dateStart: Date.now(),
+      duration: 30000,
+      price: 0,
+      options: [],
+      type: `bus`
+    };
+
+    this._creatingEvent = new PointController(document.querySelectorAll(`.trip-events__list`)[0], defaultEvent, Mode.ADDING, this._onChangeView, this._onDataChange);
+    this._subscriptions.push(this._creatingEvent.setDefaultView.bind(this._creatingEvent));
+  }
+
   _onDataChange(newData, oldData) {
+    console.log(newData, oldData);
     const index = this._events.findIndex((event) => event === oldData);
 
-    if (newData === null) {
+    if (newData === null && oldData === null) {
+      this._creatingEvent = null;
+    } else if (newData === null) {
       this._events = [...this._events.slice(0, index), ...this._events.slice(index + 1)];
+    } else if (oldData === null) {
+      this._creatingEvent = null;
+      this._events = [...this._events, newData];
+      console.log(this._events);
     } else {
       this._events[index] = newData;
     }

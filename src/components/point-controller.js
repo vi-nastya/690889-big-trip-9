@@ -5,8 +5,13 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import 'flatpickr/dist/themes/light.css';
 
+export const Mode = {
+  ADDING: `adding`,
+  DEFAULT: `default`,
+};
+
 export class PointController {
-  constructor(container, eventData, onDataChange, onChangeView) {
+  constructor(container, eventData, mode, onDataChange, onChangeView) {
     this._container = container;
     this._onDataChange = onDataChange;
     this._onChangeView = onChangeView;
@@ -14,7 +19,7 @@ export class PointController {
     this._eventView = new Event(this._eventData);
     this._eventEdit = new EventEditForm(this._eventData);
 
-    this.init();
+    this.init(mode);
 
     flatpickr(this._eventEdit.getElement().querySelector(`#event-start-time-1`), {
       altInput: true,
@@ -33,7 +38,15 @@ export class PointController {
     });
   }
 
-  init() {
+  init(mode) {
+    let renderPosition = Position.BEFOREEND;
+    let currentView = this._eventView;
+
+    if (mode === Mode.ADDING) {
+      renderPosition = Position.AFTERBEGIN;
+      currentView = this._eventEdit;
+    }
+
     // event <-> eventEditForm
     const onEscKeyDown = (evt) => {
       if (evt.key === `Escape` || evt.key === `Esc`) {
@@ -69,7 +82,8 @@ export class PointController {
 
         // find corresponding event
         this._onDataChange(entry, this._eventData);
-        //
+        console.log(this._eventView.getElement());
+        console.log(this._eventEdit.getElement());
         this._container.replaceChild(this._eventView.getElement(), this._eventEdit.getElement());
         document.removeEventListener(`keydown`, onEscKeyDown);
       });
@@ -86,7 +100,7 @@ export class PointController {
       this._onDataChange(null, this._eventData);
     });
 
-    render(this._container, this._eventView.getElement(), Position.BEFOREEND);
+    render(this._container, currentView.getElement(), renderPosition);
   }
 
   setDefaultView() {
