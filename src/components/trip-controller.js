@@ -58,8 +58,9 @@ export class TripController {
     }
   }
 
-  _sortAndRenderEvents(sortType) {
-    switch (sortType) {
+  _sortAndRenderEvents() {
+    this._unrenderEvents();
+    switch (this._sortType) {
       case Sorting.DEFAULT:
         this._renderEventsByDate(this._events);
         break;
@@ -133,12 +134,11 @@ export class TripController {
       type: `bus`
     };
 
-    this._creatingEvent = new PointController(document.querySelectorAll(`.trip-events__list`)[0], defaultEvent, Mode.ADDING, this._onChangeView, this._onDataChange);
+    this._creatingEvent = new PointController(this._eventsElement, defaultEvent, Mode.ADDING, this._onDataChange, this._onChangeView);
     // this._subscriptions.push(this._creatingEvent.setDefaultView.bind(this._creatingEvent));
   }
 
   _onDataChange(newData, oldData) {
-    console.log(newData, oldData);
     const index = this._events.findIndex((event) => event === oldData);
 
     if (newData === null && oldData === null) {
@@ -148,12 +148,11 @@ export class TripController {
     } else if (oldData === null) {
       this._creatingEvent = null;
       this._events = [...this._events, newData];
-      console.log(this._events);
     } else {
       this._events[index] = newData;
     }
 
-    this._renderEventsByDate(this._events);
+    this._sortAndRenderEvents();
   }
 
   _onChangeView() {
@@ -167,7 +166,8 @@ export class TripController {
       return;
     }
 
-    this._sortAndRenderEvents(evt.target.dataset.sortType);
+    this._sortType = evt.target.dataset.sortType;
+    this._sortAndRenderEvents();
     evt.target.previousElementSibling.checked = true;
   }
 }

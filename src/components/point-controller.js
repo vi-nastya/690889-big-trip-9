@@ -81,13 +81,14 @@ export class PointController {
           type: formData.get(`event-type`),
           // TODO: offers:  formData.get(`event-offer-seats) returns `on` or NULL
         };
-
-        // find corresponding event
-        this._onDataChange(entry, this._eventData);
-        console.log(this._eventView.getElement());
-        console.log(this._eventEdit.getElement());
-        this._container.replaceChild(this._eventView.getElement(), this._eventEdit.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
+        if (this._mode === Mode.ADDING) {
+          this._onDataChange(entry, null);
+          this._container.removeChild(this._eventEdit.getElement());
+        } else {
+          this._onDataChange(entry, this._eventData);
+          this._container.replaceChild(this._eventView.getElement(), this._eventEdit.getElement());
+          document.removeEventListener(`keydown`, onEscKeyDown);
+        }
       });
 
     this._eventEdit.getElement()
