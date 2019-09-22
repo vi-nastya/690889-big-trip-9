@@ -6,7 +6,7 @@ import {TripInfo} from './components/trip-info';
 import {TripController} from './components/trip-controller';
 import {Statistics} from './components/statistics';
 
-const NUM_EVENTS = 7;
+const NUM_EVENTS = 15;
 
 const generateEventsData = (numEvents) => {
   let events = [];
@@ -42,7 +42,7 @@ let tripController = new TripController(tripEventsContainer, events);
 tripController.init();
 
 const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
-const statistics = new Statistics();
+const statistics = new Statistics(events);
 statistics.getElement().classList.add(`visually-hidden`);
 render(statsContainer, statistics.getElement(), Position.BEFOREEND);
 
@@ -62,6 +62,7 @@ menu.getElement().addEventListener(`click`, (evt) => {
       break;
     case `menu-stats`:
       statistics.getElement().classList.remove(`visually-hidden`);
+      statistics.init();
       tripController.hide();
       break;
   }
