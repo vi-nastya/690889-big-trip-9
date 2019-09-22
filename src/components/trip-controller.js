@@ -4,6 +4,12 @@ import {DaysList} from './days-list';
 import {Day} from './day';
 import {Mode, PointController} from './point-controller';
 
+const Sorting = {
+  DEFAULT: `default`,
+  PRICE: `price`,
+  TIME: `time`
+};
+
 export class TripController {
   constructor(container, eventsData) {
     this._container = container;
@@ -12,6 +18,7 @@ export class TripController {
     this._daysList = new DaysList();
     this._eventsContainer = null;
     this._creatingEvent = null;
+    this._sortType = Sorting.DEFAULT;
 
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);
@@ -48,6 +55,22 @@ export class TripController {
   show() {
     if (this._eventsElement.classList.contains(`visually-hidden`)) {
       document.querySelector(`.trip-events`).classList.remove(`visually-hidden`);
+    }
+  }
+
+  _sortAndRenderEvents(sortType) {
+    switch (sortType) {
+      case Sorting.DEFAULT:
+        this._renderEventsByDate(this._events);
+        break;
+      case Sorting.PRICE:
+        const eventsSortedByPrice = this._events.slice().sort((e1, e2) => e2.price - e1.price);
+        this._renderEventsNoDays(eventsSortedByPrice);
+        break;
+      case Sorting.TIME:
+        const eventsSortedByTime = this._events.slice().sort((e1, e2) => (e2.duration - e1.duration));
+        this._renderEventsNoDays(eventsSortedByTime);
+        break;
     }
   }
 
@@ -144,22 +167,7 @@ export class TripController {
       return;
     }
 
-    switch (evt.target.dataset.sortType) {
-      case `time`:
-        const eventsSortedByTime = this._events.slice().sort((e1, e2) => (e2.duration - e1.duration));
-        this._renderEventsNoDays(eventsSortedByTime);
-        evt.target.previousElementSibling.checked = true;
-        break;
-      case `price`:
-        const eventsSortedByPrice = this._events.slice().sort((e1, e2) => e2.price - e1.price);
-        this._renderEventsNoDays(eventsSortedByPrice);
-
-        evt.target.previousElementSibling.checked = true;
-        break;
-      case `default`:
-        this._renderEventsByDate(this._events);
-        evt.target.previousElementSibling.checked = true;
-        break;
-    }
+    this._sortAndRenderEvents(evt.target.dataset.sortType);
+    evt.target.previousElementSibling.checked = true;
   }
 }
