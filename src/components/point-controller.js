@@ -19,6 +19,8 @@ export class PointController {
     this._eventView = new Event(this._eventData);
     this._eventEdit = new EventEditForm(this._eventData);
 
+    this._mode = mode;
+
     this.init(mode);
 
     flatpickr(this._eventEdit.getElement().querySelector(`#event-start-time-1`), {

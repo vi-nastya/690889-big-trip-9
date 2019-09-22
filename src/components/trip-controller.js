@@ -111,7 +111,7 @@ export class TripController {
     };
 
     this._creatingEvent = new PointController(document.querySelectorAll(`.trip-events__list`)[0], defaultEvent, Mode.ADDING, this._onChangeView, this._onDataChange);
-    this._subscriptions.push(this._creatingEvent.setDefaultView.bind(this._creatingEvent));
+    // this._subscriptions.push(this._creatingEvent.setDefaultView.bind(this._creatingEvent));
   }
 
   _onDataChange(newData, oldData) {
