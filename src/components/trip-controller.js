@@ -89,7 +89,7 @@ export class TripController {
   _sortEventsByDate(eventsData) {
     let eventsByDate = {};
 
-    eventsData.forEach((event) => {
+    eventsData.slice().sort((e1, e2) => e1.dateStart - e2.dateStart).forEach((event) => {
       const eventDateAsString = new Date(event.dateStart).toString().slice(4, 10);
       if (eventDateAsString in eventsByDate) {
         eventsByDate[eventDateAsString].push(event);

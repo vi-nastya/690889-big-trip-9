@@ -6,7 +6,7 @@ import {TripInfo} from './components/trip-info';
 import {TripController} from './components/trip-controller';
 import {Statistics} from './components/statistics';
 
-const NUM_EVENTS = 2;
+const NUM_EVENTS = 7;
 
 const generateEventsData = (numEvents) => {
   let events = [];
