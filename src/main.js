@@ -7,6 +7,7 @@ import {TripController} from './components/trip-controller';
 import {Statistics} from './components/statistics';
 
 import {API} from './api';
+import {EventAdapter} from './event-adapter';
 
 const NUM_EVENTS = 15;
 
