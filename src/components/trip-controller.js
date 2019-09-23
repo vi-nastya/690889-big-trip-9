@@ -10,6 +10,12 @@ const Sorting = {
   TIME: `time`
 };
 
+const Filters = {
+  DEFAULT: `everything`,
+  PAST: `past`,
+  FUTURE: `future`
+};
+
 export class TripController {
   constructor(container, eventsData) {
     this._container = container;
@@ -19,6 +25,7 @@ export class TripController {
     this._eventsContainer = null;
     this._creatingEvent = null;
     this._sortType = Sorting.DEFAULT;
+    this._filter = Filters.DEFAULT;
 
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);
@@ -38,6 +45,9 @@ export class TripController {
 
 
     this._sort.getElement().addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
+
+    // filters
+    document.querySelector(`.trip-filters`).addEventListener(`click`, (evt) => this._onFilterClick(evt));
 
     this._renderEventsByDate(this._events);
   }
@@ -60,16 +70,34 @@ export class TripController {
 
   _sortAndRenderEvents() {
     this._unrenderEvents();
+    let eventsToRender = this._events;
+
+    switch (this._filter) {
+      case Filters.DEFAULT: {
+        break;
+      }
+
+      case Filters.PAST: {
+        eventsToRender = eventsToRender.filter((event) => event.dateStart + event.duration < Date.now());
+        break;
+      }
+
+      case Filters.FUTURE: {
+        eventsToRender = eventsToRender.filter((event) => event.dateStart > Date.now());
+        break;
+      }
+    }
+
     switch (this._sortType) {
       case Sorting.DEFAULT:
-        this._renderEventsByDate(this._events);
+        this._renderEventsByDate(eventsToRender);
         break;
       case Sorting.PRICE:
-        const eventsSortedByPrice = this._events.slice().sort((e1, e2) => e2.price - e1.price);
+        const eventsSortedByPrice = eventsToRender.slice().sort((e1, e2) => e2.price - e1.price);
         this._renderEventsNoDays(eventsSortedByPrice);
         break;
       case Sorting.TIME:
-        const eventsSortedByTime = this._events.slice().sort((e1, e2) => (e2.duration - e1.duration));
+        const eventsSortedByTime = eventsToRender.slice().sort((e1, e2) => (e2.duration - e1.duration));
         this._renderEventsNoDays(eventsSortedByTime);
         break;
     }
@@ -157,6 +185,13 @@ export class TripController {
 
   _onChangeView() {
     this._subscriptions.forEach((it) => it());
+  }
+
+  _onFilterClick(evt) {
+    if (evt.target.tagName === `INPUT` && evt.target.value !== this._currentFilter) {
+      this._filter = evt.target.value;
+      this._sortAndRenderEvents();
+    }
   }
 
   _onSortLinkClick(evt) {
