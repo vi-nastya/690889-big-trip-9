@@ -42,8 +42,6 @@ api.getDestinations().then((destinations) => {
 
 export {DESTINATIONS};
 
-//console.log(api.getDestinations());
-//export const DESTINATIONS = [...api.getDestinations()].map((destination) => destination.name);
 
 //const boardController = new BoardController(taskListElement, onDataChange);
 
@@ -83,38 +81,42 @@ render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
 // render(tripEventsContainer, new TripSort().getElement());
 // render(tripEventsContainer, new DaysList().getElement());
 
-let tripController = new TripController(tripEventsContainer, events);
-tripController.init();
+// API -------------------------------------------
 
-const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
-const statistics = new Statistics(events);
-statistics.getElement().classList.add(`visually-hidden`);
-render(statsContainer, statistics.getElement(), Position.BEFOREEND);
+api.getEvents().then((APIevents) => {
+  let tripController = new TripController(tripEventsContainer, EventAdapter.parseEvents(APIevents));
+  tripController.init();
 
-menu.getElement().addEventListener(`click`, (evt) => {
-  evt.preventDefault();
+  const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
+  const statistics = new Statistics(events);
+  statistics.getElement().classList.add(`visually-hidden`);
+  render(statsContainer, statistics.getElement(), Position.BEFOREEND);
 
-  if (evt.target.tagName !== `A`) {
-    return;
-  }
+  menu.getElement().addEventListener(`click`, (evt) => {
+    evt.preventDefault();
 
-  switch (evt.target.id) {
-    case `menu-table`:
-      if (!statistics.getElement().classList.contains(`visually-hidden`)) {
-        statistics.getElement().classList.add(`visually-hidden`);
-      }
-      tripController.show();
-      break;
-    case `menu-stats`:
-      statistics.getElement().classList.remove(`visually-hidden`);
-      statistics.init();
-      tripController.hide();
-      break;
-  }
-});
+    if (evt.target.tagName !== `A`) {
+      return;
+    }
 
-const addNewEventButton = document.querySelector(`.trip-main__event-add-btn`);
-addNewEventButton.addEventListener(`click`, () => {
-  tripController.createEvent();
+    switch (evt.target.id) {
+      case `menu-table`:
+        if (!statistics.getElement().classList.contains(`visually-hidden`)) {
+          statistics.getElement().classList.add(`visually-hidden`);
+        }
+        tripController.show();
+        break;
+      case `menu-stats`:
+        statistics.getElement().classList.remove(`visually-hidden`);
+        statistics.init();
+        tripController.hide();
+        break;
+    }
+  });
+
+  const addNewEventButton = document.querySelector(`.trip-main__event-add-btn`);
+  addNewEventButton.addEventListener(`click`, () => {
+    tripController.createEvent();
+  });
 });
 

@@ -8,7 +8,7 @@ export class EventAdapter {
     this.price = data[`base_price`];
     this.destination = data[`destination`][`name`];
     this.isFavorite = Boolean(data[`is_favorite`]);
-    this.offers = data[`offers`];
+    this.options = data[`offers`];
   }
 
   // app data -> server data
@@ -25,7 +25,7 @@ export class EventAdapter {
       },
       'base_price': this.price,
       'is_favorite': this.isFavorite,
-      'offers': this.offers // TODO: update format
+      'offers': this.options // TODO: update format
     };
   }
 
