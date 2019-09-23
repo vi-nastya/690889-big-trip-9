@@ -40,24 +40,24 @@ export const getEventData = () => ({
   duration: getRandomNumber(MAX_EVENT_DURATION, MIN_EVENT_DURATION),
   options: new Set([
     {
-      name: `Add luggage`,
+      title: `Add luggage`,
       price: 10,
-      flag: getRandomBoolean()
+      accepted: getRandomBoolean()
     },
     {
-      name: `Switch to comfort class`,
+      title: `Switch to comfort class`,
       price: 150,
-      flag: getRandomBoolean()
+      accepted: getRandomBoolean()
     },
     {
-      name: `Add meal`,
+      title: `Add meal`,
       price: 2,
-      flag: getRandomBoolean()
+      accepted: getRandomBoolean()
     },
     {
-      name: `Choose seats`,
+      title: `Choose seats`,
       price: 9,
-      flag: getRandomBoolean()
+      accepted: getRandomBoolean()
     }
   ])
 });

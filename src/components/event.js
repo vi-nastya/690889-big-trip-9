@@ -2,7 +2,7 @@ import {formatDuration, getTimeFromTimestamp, AbstractComponent} from '../utils'
 
 const renderOffer = (offerData) => {
   return `<li class="event__offer">
-  <span class="event__offer-title">${offerData.name}</span>
+  <span class="event__offer-title">${offerData.title}</span>
   &plus;
   &euro;&nbsp;<span class="event__offer-price">${offerData.price}</span>
  </li>`;
@@ -44,7 +44,7 @@ export class Event extends AbstractComponent {
 
   <h4 class="visually-hidden">Offers:</h4>
   <ul class="event__selected-offers">
-    ${[...this._options].filter((offer) => offer.flag).map(renderOffer).join(`\n`)}
+    ${[...this._options].filter((offer) => offer.accepted).map(renderOffer).join(`\n`)}
   </ul>
 
   <button class="event__rollup-btn" type="button">
