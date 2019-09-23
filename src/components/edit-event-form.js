@@ -1,4 +1,5 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, CITIES, AbstractComponent} from '../utils';
+import {TRANSFER_TYPES, ACTIVITY_TYPES, AbstractComponent} from '../utils';
+import {DESTINATIONS} from '../main';
 
 const renderTypeSelector = (type, selectedType) => {
   return `<div class="event__type-item">
@@ -51,7 +52,7 @@ export class EventEditForm extends AbstractComponent {
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${this._city}" list="destination-list-1">
         <datalist id="destination-list-1">
-          ${CITIES.map((city) => `<option value="${city}"></option>`).join(`\n`)}
+          ${DESTINATIONS.map((destination) => `<option value="${destination}"></option>`).join(`\n`)}
         </datalist>
       </div>
 
