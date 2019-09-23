@@ -6,7 +6,7 @@ export class EventAdapter {
     this.dateStart = data[`date_from`];
     this.duration = data[`date_to`] - data[`date_from`];
     this.price = data[`base_price`];
-    this.city = data[`destination`][`name`];
+    this.destination = data[`destination`][`name`];
     this.isFavorite = Boolean(data[`is_favorite`]);
     this.offers = data[`offers`];
   }

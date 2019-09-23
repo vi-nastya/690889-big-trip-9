@@ -12,7 +12,7 @@ export class Event extends AbstractComponent {
   constructor(eventData) {
     super();
     this._type = eventData.type;
-    this._city = eventData.city;
+    this._destination = eventData.destination;
     this._photos = eventData.photos;
     this._description = eventData.description;
     this._price = eventData.price;

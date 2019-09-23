@@ -12,7 +12,7 @@ export class EventEditForm extends AbstractComponent {
   constructor(eventData) {
     super();
     this._type = eventData.type;
-    this._city = eventData.city;
+    this._destination = eventData.destination;
     this._photos = eventData.photos;
     this._description = eventData.description;
     this._price = eventData.price;
@@ -50,7 +50,7 @@ export class EventEditForm extends AbstractComponent {
         <label class="event__label  event__type-output" for="event-destination-1">
           ${this._type} at
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${this._city}" list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${this._destination}" list="destination-list-1">
         <datalist id="destination-list-1">
           ${DESTINATIONS.map((destination) => `<option value="${destination}"></option>`).join(`\n`)}
         </datalist>

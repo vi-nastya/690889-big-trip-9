@@ -32,7 +32,7 @@ export const getFilters = () => {
 
 export const getEventData = () => ({
   type: getRandomArrayElement(EVENT_TYPES),
-  city: getRandomArrayElement(CITIES),
+  destination: getRandomArrayElement(CITIES),
   photos: `http://picsum.photos/300/150?r=${Math.random()}`,
   description: getRandomArraySubset(DESCRIPTION_SENTENCES, getRandomNumber(MAX_DESCRIPTION_LENGTH, MIN_DESCRIPTION_LENGTH)).join(` `),
   price: getRandomNumber(MAX_PRICE, MIN_PRICE),
@@ -75,7 +75,7 @@ const getEndDate = (events) => {
 
 export const getTripInfoData = (events) => {
   return {
-    route: formatRoute(events.map((e) => e.city)),
+    route: formatRoute(events.map((e) => e.destination)),
     dateStart: (new Date(events[0].dateStart)).toString().slice(4, 10),
     dateEnd: (new Date(getEndDate(events))).toString().slice(4, 10),
     cost: events.map((e) => e.price).reduce((total, currenPrice) => {

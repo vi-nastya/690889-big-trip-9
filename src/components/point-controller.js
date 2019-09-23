@@ -73,7 +73,7 @@ export class PointController {
         const formData = new FormData(this._eventEdit.getElement());
 
         const entry = {
-          city: formData.get(`event-destination`),
+          destination: formData.get(`event-destination`),
           dateStart: Date.now(), // formData.get(`event-start-time`),
           dateEnd: Date.now() + 3000000, // formData.get(`event-end-time`),
           price: formData.get(`event-price`),

@@ -154,7 +154,7 @@ export class TripController {
     }
 
     const defaultEvent = {
-      city: ``,
+      destination: ``,
       dateStart: Date.now(),
       duration: 30000,
       price: 0,
