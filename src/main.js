@@ -6,6 +6,8 @@ import {TripInfo} from './components/trip-info';
 import {TripController} from './components/trip-controller';
 import {Statistics} from './components/statistics';
 
+import {API} from './api';
+
 const NUM_EVENTS = 15;
 
 const generateEventsData = (numEvents) => {
@@ -72,3 +74,35 @@ const addNewEventButton = document.querySelector(`.trip-main__event-add-btn`);
 addNewEventButton.addEventListener(`click`, () => {
   tripController.createEvent();
 });
+
+// API -------------------------------
+const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZAo${Math.random()}`;
+const END_POINT = `https://htmlacademy-es-9.appspot.com/big-trip/`;
+
+const taskListElement = document.querySelector(`.board__tasks`);
+
+const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
+
+const onDataChange = (actionType, update) => {
+  switch (actionType) {
+    case `update`:
+      api.updateEvent({
+        id: update.id,
+        data: update.toRAW()
+      }).then((events) => boardController.show(events));
+      break;
+    case `delete`:
+      api.updateEvent({
+        id: update.id
+      })
+        .then(() => api.getEvents())
+        .then((tasks) => boardController.show(tasks));
+      break;
+  }
+};
+
+const destinations = api.getDestinations();
+
+const boardController = new BoardController(taskListElement, onDataChange);
+
+api.getTasks().then((tasks) => boardController.show(tasks));
