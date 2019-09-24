@@ -78,12 +78,10 @@ render(menuHeader, menu.getElement(), Position.AFTEREND);
 
 let filters = getFilters(events);
 render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
-// render(tripEventsContainer, new TripSort().getElement());
-// render(tripEventsContainer, new DaysList().getElement());
 
 // API -------------------------------------------
-
 api.getEvents().then((APIevents) => {
+  console.log(APIevents);
   let tripController = new TripController(tripEventsContainer, EventAdapter.parseEvents(APIevents));
   tripController.init();
 

@@ -116,3 +116,17 @@ export class AbstractComponent {
     throw Error(`Abstract method not implemented: getTemplate`);
   }
 }
+
+
+// get all rendered offers -> construct offers array
+export const getOffersFromForm = () => {
+  const offerLabels = document.querySelectorAll(`.event__offer-label`);
+  const offers = offerLabels.map((label) => {
+    return {
+      title: label.querySelector(`.event__offer-title`).textContent,
+      price: label.querySelector(`.event__offer-price`).textContent, // TODO: convert string to number
+      accepted: label.control.checked
+    };
+  });
+  return offers;
+};
