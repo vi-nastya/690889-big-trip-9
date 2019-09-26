@@ -74,8 +74,7 @@ export class PointController {
 
     const onDestinationChange = (evt) => {
       const newCity = evt.target.value;
-      console.log(newCity);
-      this._eventEdit.getElement().querySelector(`.event__section--destination`).classList.remove(`visually-hidden`);
+      this._eventEdit.refreshDestination(newCity, DESTINATIONS);
     };
 
     this._eventEdit.getElement().querySelector(`.event__type-list`).addEventListener(`click`, onEventTypeClick);

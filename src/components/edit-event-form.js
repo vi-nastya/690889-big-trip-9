@@ -142,4 +142,22 @@ export class EventEditForm extends AbstractComponent {
       this.getElement().querySelector(`.event__section--offers`).classList.add(`visually-hidden`);
     }
   }
+
+  refreshDestination(newDestination, destinations) {
+    const destinationData = destinations.filter((it) => it.name === newDestination);
+    if (destinationData.length > 0) {
+      // update all fields
+      const picturesContainer = this.getElement().querySelector(`.event__photos-tape`);
+      picturesContainer.innerHTML = ``;
+      if (destinationData[0].pictures.length > 0) {
+        const picturesElements = destinationData[0].pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join(`\n`);
+        picturesContainer.insertAdjacentHTML(`beforeend`, picturesElements);
+      }
+      this.getElement().querySelector(`.event__destination-description`).textContent = destinationData[0].description;
+      this.getElement().querySelector(`.event__section--destination`).classList.remove(`visually-hidden`);
+    } else {
+      // hide destination block
+      this.getElement().querySelector(`.event__section--destination`).classList.add(`visually-hidden`);
+    }
+  }
 }

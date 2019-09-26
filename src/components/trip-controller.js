@@ -154,7 +154,11 @@ export class TripController {
     }
 
     const defaultEvent = {
-      destination: ``,
+      destination: {
+        name: ``,
+        description: ``,
+        pictures: []
+      },
       dateStart: Date.now(),
       duration: 30000,
       price: 0,

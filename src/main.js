@@ -68,7 +68,7 @@ let DESTINATIONS = [];
 api.getOffers().then((offers) => {
   OFFERS = offers;
   api.getDestinations().then((destinations) => {
-    DESTINATIONS = destinations.map((destination) => destination.name);
+    DESTINATIONS = destinations;
 
     api.getEvents().then((APIevents) => {
       const events = EventAdapter.parseEvents(APIevents);
