@@ -1,4 +1,4 @@
-import {render, Position} from '../utils';
+import {render, Position, getOffersFromForm} from '../utils';
 import {EventEditForm} from './edit-event-form';
 import {Event} from './event';
 import flatpickr from 'flatpickr';
@@ -77,7 +77,7 @@ export class PointController {
           dateStart: Date.now(), // formData.get(`event-start-time`),
           dateEnd: Date.now() + 3000000, // formData.get(`event-end-time`),
           price: formData.get(`event-price`),
-          options: [],
+          options: getOffersFromForm(),
           type: formData.get(`event-type`),
           // TODO: offers:  formData.get(`event-offer-seats) returns `on` or NULL
         };

@@ -121,10 +121,10 @@ export class AbstractComponent {
 // get all rendered offers -> construct offers array
 export const getOffersFromForm = () => {
   const offerLabels = document.querySelectorAll(`.event__offer-label`);
-  const offers = offerLabels.map((label) => {
+  const offers = [...offerLabels].map((label) => {
     return {
       title: label.querySelector(`.event__offer-title`).textContent,
-      price: label.querySelector(`.event__offer-price`).textContent, // TODO: convert string to number
+      price: parseInt(label.querySelector(`.event__offer-price`).textContent, 10),
       accepted: label.control.checked
     };
   });

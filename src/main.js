@@ -35,13 +35,6 @@ const onDataChange = (actionType, update) => {
   }
 };
 
-let DESTINATIONS = [];
-api.getDestinations().then((destinations) => {
-  DESTINATIONS = destinations.map((destination) => destination.name)
-});
-
-export {DESTINATIONS};
-
 
 //const boardController = new BoardController(taskListElement, onDataChange);
 
@@ -79,42 +72,52 @@ render(menuHeader, menu.getElement(), Position.AFTEREND);
 let filters = getFilters(events);
 render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
 
+let OFFERS = [];
+let DESTINATIONS = [];
+
 // API -------------------------------------------
-api.getEvents().then((APIevents) => {
-  console.log(APIevents);
-  let tripController = new TripController(tripEventsContainer, EventAdapter.parseEvents(APIevents));
-  tripController.init();
+api.getOffers().then((offers) => {
+  OFFERS = offers;
+  api.getDestinations().then((destinations) => {
+    DESTINATIONS = destinations.map((destination) => destination.name);
 
-  const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
-  const statistics = new Statistics(events);
-  statistics.getElement().classList.add(`visually-hidden`);
-  render(statsContainer, statistics.getElement(), Position.BEFOREEND);
+    api.getEvents().then((APIevents) => {
+      console.log(APIevents);
+      let tripController = new TripController(tripEventsContainer, EventAdapter.parseEvents(APIevents));
+      tripController.init();
 
-  menu.getElement().addEventListener(`click`, (evt) => {
-    evt.preventDefault();
+      const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
+      const statistics = new Statistics(events);
+      statistics.getElement().classList.add(`visually-hidden`);
+      render(statsContainer, statistics.getElement(), Position.BEFOREEND);
 
-    if (evt.target.tagName !== `A`) {
-      return;
-    }
+      menu.getElement().addEventListener(`click`, (evt) => {
+        evt.preventDefault();
 
-    switch (evt.target.id) {
-      case `menu-table`:
-        if (!statistics.getElement().classList.contains(`visually-hidden`)) {
-          statistics.getElement().classList.add(`visually-hidden`);
+        if (evt.target.tagName !== `A`) {
+          return;
         }
-        tripController.show();
-        break;
-      case `menu-stats`:
-        statistics.getElement().classList.remove(`visually-hidden`);
-        statistics.init();
-        tripController.hide();
-        break;
-    }
-  });
 
-  const addNewEventButton = document.querySelector(`.trip-main__event-add-btn`);
-  addNewEventButton.addEventListener(`click`, () => {
-    tripController.createEvent();
+        switch (evt.target.id) {
+          case `menu-table`:
+            if (!statistics.getElement().classList.contains(`visually-hidden`)) {
+              statistics.getElement().classList.add(`visually-hidden`);
+            }
+            tripController.show();
+            break;
+          case `menu-stats`:
+            statistics.getElement().classList.remove(`visually-hidden`);
+            statistics.init();
+            tripController.hide();
+            break;
+        }
+      });
+
+      const addNewEventButton = document.querySelector(`.trip-main__event-add-btn`);
+      addNewEventButton.addEventListener(`click`, () => {
+        tripController.createEvent();
+      });
+    });
   });
 });
-
+export {DESTINATIONS, OFFERS};
