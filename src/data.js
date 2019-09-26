@@ -77,6 +77,7 @@ const getEndDate = (events) => {
 };
 
 export const getTripInfoData = (events) => {
+  console.log(events);
   return {
     route: formatRoute(events.map((e) => e.destination.name)),
     dateStart: (new Date(events[0].dateStart)).toString().slice(4, 10),

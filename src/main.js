@@ -8,6 +8,7 @@ import {Statistics} from './components/statistics';
 
 import {API} from './api';
 import {EventAdapter} from './event-adapter';
+import { Event } from './components/event';
 
 // API -------------------------------
 const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZAo${Math.random()}`;
@@ -70,9 +71,9 @@ api.getOffers().then((offers) => {
     DESTINATIONS = destinations.map((destination) => destination.name);
 
     api.getEvents().then((APIevents) => {
-      console.log(APIevents);
+      const events = EventAdapter.parseEvents(APIevents);
 
-      const tripInfoData = getTripInfoData(APIevents);
+      const tripInfoData = getTripInfoData(events);
       const priceElement = document.querySelector(`.trip-info__cost-value`);
       priceElement.textContent = tripInfoData.cost;
 
@@ -80,14 +81,14 @@ api.getOffers().then((offers) => {
       const menu = new Menu();
       render(menuHeader, menu.getElement(), Position.AFTEREND);
 
-      let filters = getFilters(APIevents);
+      let filters = getFilters(events);
       render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
 
-      let tripController = new TripController(tripEventsContainer, EventAdapter.parseEvents(APIevents));
+      let tripController = new TripController(tripEventsContainer, events);
       tripController.init();
 
       const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
-      const statistics = new Statistics(APIevents);
+      const statistics = new Statistics(events);
       statistics.getElement().classList.add(`visually-hidden`);
       render(statsContainer, statistics.getElement(), Position.BEFOREEND);
 
