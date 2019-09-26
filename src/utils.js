@@ -117,7 +117,6 @@ export class AbstractComponent {
   }
 }
 
-
 // get all rendered offers -> construct offers array
 export const getOffersFromForm = () => {
   const offerLabels = document.querySelectorAll(`.event__offer-label`);

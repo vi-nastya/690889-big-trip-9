@@ -93,8 +93,12 @@ export class EventEditForm extends AbstractComponent {
                     </header>
 
                     <section class="event__details">
-                      ${this._renderOptions()}
-                      ${console.log(getOffersForType(this._type, OFFERS))}
+                      <section class="event__section  event__section--offers">
+                        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+                        <div class="event__available-offers">
+                          ${this._options.map((option) => this._renderOfferSelector(option, option.accepted)).join(`\n`)}
+                        </div>
+                      </section>
 
                       <section class="event__section  event__section--destination">
                         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -126,17 +130,21 @@ export class EventEditForm extends AbstractComponent {
   </div>`;
   }
 
-  _renderOptions() {
-    if (this._options.length > 0) {
-      return `<section class="event__section  event__section--offers">
-      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+  refreshOffers(type, offers) {
+    const newOffers = getOffersForType(type, offers);
+    console.log(newOffers);
+    // clear offers list content
+    const offersContainer = this.getElement().querySelector(`.event__available-offers`);
+    offersContainer.innerHTML = ``;
 
-      <div class="event__available-offers">
-        ${this._options.map((option) => this._renderOfferSelector(option, option.accepted))}
-      </div>
-    </section>`;
+    if (newOffers.length > 0) {
+      // render new offers
+      const offersElements = newOffers.map((offer) => this._renderOfferSelector(offer, offer.accepted)).join(`\n`);
+      offersContainer.insertAdjacentHTML(`beforeend`, offersElements);
+      this.getElement().querySelector(`.event__section--offers`).classList.remove(`visually-hidden`);
     } else {
-      return ``;
+      // hide offers section
+      this.getElement().querySelector(`.event__section--offers`).classList.add(`visually-hidden`);
     }
   }
 }

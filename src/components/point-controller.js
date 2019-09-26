@@ -1,4 +1,5 @@
 import {render, Position, getOffersFromForm} from '../utils';
+import {OFFERS, DESTINATIONS} from '../main';
 import {EventEditForm} from './edit-event-form';
 import {Event} from './event';
 import flatpickr from 'flatpickr';
@@ -60,12 +61,14 @@ export class PointController {
 
     const onEventTypeClick = (evt) => {
       if (evt.target.tagName === `INPUT` && evt.target.value !== this._eventData.type) {
-
         const eventTypeInput = this._eventEdit.getElement().querySelector(`.event__type-output`);
         const eventTypeIcon = this._eventEdit.getElement().querySelector(`.event__type-icon`);
         const newEventType = evt.target.value;
         eventTypeIcon.src = `img/icons/${newEventType}.png`;
         eventTypeInput.innerText = `${newEventType}`;
+
+        // new type -> refresh offers
+        this._eventEdit.refreshOffers(newEventType, OFFERS);
       }
     };
 
