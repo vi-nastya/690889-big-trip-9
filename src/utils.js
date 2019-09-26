@@ -130,3 +130,14 @@ export const getOffersFromForm = () => {
   });
   return offers;
 };
+
+export const getOffersForType = (type, offersForTypes) => {
+  return offersForTypes.filter((it) => it.type === type)[0].offers
+  .map((offer) => {
+    return {
+      title: offer.title,
+      price: offer.price,
+      accepted: false
+    };
+  });
+};

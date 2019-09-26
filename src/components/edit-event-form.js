@@ -1,5 +1,5 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, AbstractComponent} from '../utils';
-import {DESTINATIONS} from '../main';
+import {TRANSFER_TYPES, ACTIVITY_TYPES, AbstractComponent, getOffersForType} from '../utils';
+import {DESTINATIONS, OFFERS} from '../main';
 
 const renderTypeSelector = (type, selectedType) => {
   return `<div class="event__type-item">
@@ -94,6 +94,7 @@ export class EventEditForm extends AbstractComponent {
 
                     <section class="event__details">
                       ${this._renderOptions()}
+                      ${console.log(getOffersForType(this._type, OFFERS))}
 
                       <section class="event__section  event__section--destination">
                         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
