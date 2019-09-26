@@ -71,15 +71,15 @@ export class PointController {
         evt.preventDefault();
 
         const formData = new FormData(this._eventEdit.getElement());
+        console.log('FORMDATA', formData);
 
         const entry = {
           destination: formData.get(`event-destination`),
           dateStart: Date.now(), // formData.get(`event-start-time`),
           dateEnd: Date.now() + 3000000, // formData.get(`event-end-time`),
-          price: formData.get(`event-price`),
+          price: parseInt(formData.get(`event-price`), 10),
           options: getOffersFromForm(),
           type: formData.get(`event-type`),
-          // TODO: offers:  formData.get(`event-offer-seats) returns `on` or NULL
         };
         if (this._mode === Mode.ADDING) {
           this._onDataChange(entry, null);

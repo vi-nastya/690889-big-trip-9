@@ -4,7 +4,7 @@ export const MILLISECONDS_IN_MINUTE = 60 * 1000;
 
 export const EVENT_TYPES = [`bus`, `check-in`, `drive`, `flight`, `restaurant`, `ship`, `sightseeing`, `taxi`, `train`, `transport`, `trip`];
 export const TRANSFER_TYPES = [`bus`, `drive`, `flight`, `ship`, `taxi`, `train`, `transport`];
-export const ACTIVITY_TYPES = [`check-in`, `restaurant`, `sightseeing`, `trip`];
+export const ACTIVITY_TYPES = [`check-in`, `restaurant`, `sightseeing`];
 export const CITIES = [`Vancouver`, `Squamish`, `Whistler`, `Kamloops`, `Revelstoke`, `Canmore`, `Banff`, `Calgary`];
 
 export const getRandomBoolean = () => Boolean(Math.round(Math.random()));

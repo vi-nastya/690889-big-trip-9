@@ -54,23 +54,11 @@ const generateEventsData = (numEvents) => {
   });
 };
 
-const events = generateEventsData(NUM_EVENTS);
-
+// const events = generateEventsData(NUM_EVENTS);
 const tripInfoContainer = document.querySelector(`.trip-info`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
 const menuHeader = document.querySelectorAll(`.trip-controls h2`)[0];
 const filtersHeader = document.querySelectorAll(`.trip-controls h2`)[1];
-
-const tripInfoData = getTripInfoData(events);
-const priceElement = document.querySelector(`.trip-info__cost-value`);
-priceElement.textContent = tripInfoData.cost;
-
-render(tripInfoContainer, new TripInfo(tripInfoData).getElement(), Position.AFTERBEGIN);
-const menu = new Menu();
-render(menuHeader, menu.getElement(), Position.AFTEREND);
-
-let filters = getFilters(events);
-render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
 
 let OFFERS = [];
 let DESTINATIONS = [];
@@ -83,11 +71,23 @@ api.getOffers().then((offers) => {
 
     api.getEvents().then((APIevents) => {
       console.log(APIevents);
+
+      const tripInfoData = getTripInfoData(APIevents);
+      const priceElement = document.querySelector(`.trip-info__cost-value`);
+      priceElement.textContent = tripInfoData.cost;
+
+      render(tripInfoContainer, new TripInfo(tripInfoData).getElement(), Position.AFTERBEGIN);
+      const menu = new Menu();
+      render(menuHeader, menu.getElement(), Position.AFTEREND);
+
+      let filters = getFilters(APIevents);
+      render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
+
       let tripController = new TripController(tripEventsContainer, EventAdapter.parseEvents(APIevents));
       tripController.init();
 
       const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
-      const statistics = new Statistics(events);
+      const statistics = new Statistics(APIevents);
       statistics.getElement().classList.add(`visually-hidden`);
       render(statsContainer, statistics.getElement(), Position.BEFOREEND);
 
