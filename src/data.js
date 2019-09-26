@@ -63,10 +63,13 @@ export const getEventData = () => ({
 });
 
 export const formatRoute = (cities) => {
-  if (cities.length > 3) {
-    return cities[0] + `&mdash;` + cities[cities.length - 1];
+  if (cities.length === 1) {
+    return cities[0];
+  } else if (cities.length === 2 || cities.length === 3) {
+    return cities.join(` &mdash; `);
+  } else {
+    return cities[0] + ` &mdash; ... &mdash; ` + cities[cities.length - 1];
   }
-  return cities.join(`&mdash;`);
 };
 
 const getEndDate = (events) => {
