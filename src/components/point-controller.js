@@ -109,8 +109,6 @@ export class PointController {
           type: formData.get(`event-type`),
         };
 
-        console.log(entry);
-
         if (this._mode === Mode.ADDING) {
           this._onDataChange(entry, null);
           this._container.removeChild(this._eventEdit.getElement());

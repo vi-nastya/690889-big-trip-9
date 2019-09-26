@@ -76,13 +76,23 @@ const getEndDate = (events) => {
   return Math.max(...events.map((e) => e.dateStart + e.duration));
 };
 
+const getEventTotalPrice = (event) => {
+  const activeOffers = event.options.filter((offer) => offer.accepted);
+  let offersPrice = 0;
+  if (activeOffers.length) {
+    offersPrice = activeOffers.map((offer) => offer.price).reduce((total, currenPrice) => {
+      return total + currenPrice;
+    });
+  }
+  return event.price + offersPrice;
+};
+
 export const getTripInfoData = (events) => {
-  console.log(events);
   return {
     route: formatRoute(events.map((e) => e.destination.name)),
     dateStart: (new Date(events[0].dateStart)).toString().slice(4, 10),
     dateEnd: (new Date(getEndDate(events))).toString().slice(4, 10),
-    cost: events.map((e) => e.price).reduce((total, currenPrice) => {
+    cost: events.map(getEventTotalPrice).reduce((total, currenPrice) => {
       return total + currenPrice;
     })
   };
