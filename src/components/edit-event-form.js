@@ -102,15 +102,11 @@ export class EventEditForm extends AbstractComponent {
 
                       <section class="event__section  event__section--destination">
                         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                        <p class="event__destination-description">Geneva is a city in Switzerland that lies at the southern tip of expansive Lac Léman (Lake Geneva). Surrounded by the Alps and Jura mountains, the city has views of dramatic Mont Blanc.</p>
+                        <p class="event__destination-description">${this._destination.description}</p>
 
                         <div class="event__photos-container">
                           <div class="event__photos-tape">
-                            <img class="event__photo" src="img/photos/1.jpg" alt="Event photo">
-                            <img class="event__photo" src="img/photos/2.jpg" alt="Event photo">
-                            <img class="event__photo" src="img/photos/3.jpg" alt="Event photo">
-                            <img class="event__photo" src="img/photos/4.jpg" alt="Event photo">
-                            <img class="event__photo" src="img/photos/5.jpg" alt="Event photo">
+                            ${this._destination.pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join(`\n`)}
                           </div>
                         </div>
                       </section>
@@ -132,7 +128,6 @@ export class EventEditForm extends AbstractComponent {
 
   refreshOffers(type, offers) {
     const newOffers = getOffersForType(type, offers);
-    console.log(newOffers);
     // clear offers list content
     const offersContainer = this.getElement().querySelector(`.event__available-offers`);
     offersContainer.innerHTML = ``;
