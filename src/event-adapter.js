@@ -2,7 +2,6 @@ export class EventAdapter {
   constructor(data) {
     this.id = data[`id`];
     this.type = data[`type`];
-    this.description = data[`destination`][`description`] || ``;
     this.dateStart = data[`date_from`];
     this.duration = data[`date_to`] - data[`date_from`];
     this.price = data[`base_price`];
@@ -18,11 +17,7 @@ export class EventAdapter {
       'type': this.type,
       'date_from': this.dateStart,
       'date_to': this.dateStart + this.duration,
-      'destination': {
-        'name': this.destination,
-        'description': this.description,
-        'pictures': this.pictures // TODO: add picture descriptions to model
-      },
+      'destination': this.destination,
       'base_price': this.price,
       'is_favorite': this.isFavorite,
       'offers': this.options // TODO: update format

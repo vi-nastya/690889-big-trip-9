@@ -130,6 +130,16 @@ export const getOffersFromForm = () => {
   return offers;
 };
 
+export const getPicturesDataFromForm = () => {
+  const pictures = document.querySelectorAll(`.event__photo`);
+  return [...pictures].map((picture) => {
+    return {
+      src: picture.src,
+      description: picture.alt
+    };
+  });
+};
+
 export const getOffersForType = (type, offersForTypes) => {
   return offersForTypes.filter((it) => it.type === type)[0].offers
   .map((offer) => {

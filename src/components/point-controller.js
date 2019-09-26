@@ -1,4 +1,4 @@
-import {render, Position, getOffersFromForm} from '../utils';
+import {render, Position, getOffersFromForm, getPicturesDataFromForm} from '../utils';
 import {OFFERS, DESTINATIONS} from '../main';
 import {EventEditForm} from './edit-event-form';
 import {Event} from './event';
@@ -97,7 +97,11 @@ export class PointController {
         const formData = new FormData(this._eventEdit.getElement());
 
         const entry = {
-          destination: formData.get(`event-destination`),
+          destination: {
+            name: formData.get(`event-destination`),
+            description: this._eventEdit.getElement().querySelector(`.event__destination-description`).innerText,
+            pictures: getPicturesDataFromForm()
+          },
           dateStart: new Date(formData.get(`event-start-time`)).getTime(),
           duration: new Date(formData.get(`event-end-time`)).getTime() - new Date(formData.get(`event-start-time`)).getTime(),
           price: parseInt(formData.get(`event-price`), 10),
