@@ -8,18 +8,6 @@ const renderTypeSelector = (type, selectedType) => {
 </div>`;
 };
 
-const renderOfferSelector = (offer, isSelected) => {
-  const formattedTitle = offer.title.split(` `).join(`-`);
-  return `<div class="event__offer-selector">
-  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${formattedTitle}-1" type="checkbox" name="event-offer-${formattedTitle}" ${isSelected ? `checked` : ``}>
-  <label class="event__offer-label" for="event-offer-${formattedTitle}-1">
-    <span class="event__offer-title">${offer.title}</span>
-    &plus;
-    &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
-  </label>
-</div>`;
-};
-
 export class EventEditForm extends AbstractComponent {
   constructor(eventData) {
     super();
@@ -105,14 +93,7 @@ export class EventEditForm extends AbstractComponent {
                     </header>
 
                     <section class="event__details">
-
-                      <section class="event__section  event__section--offers">
-                        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-
-                        <div class="event__available-offers">
-                          ${this._options.map((option) => renderOfferSelector(option, option.accepted))}
-                        </div>
-                      </section>
+                      ${this._renderOptions()}
 
                       <section class="event__section  event__section--destination">
                         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
@@ -130,5 +111,31 @@ export class EventEditForm extends AbstractComponent {
                       </section>
                     </section>
                   </form>`;
+  }
+
+  _renderOfferSelector(offer, isSelected) {
+    const formattedTitle = offer.title.split(` `).join(`-`);
+    return `<div class="event__offer-selector">
+    <input class="event__offer-checkbox  visually-hidden" id="event-offer-${formattedTitle}-1" type="checkbox" name="event-offer-${formattedTitle}" ${isSelected ? `checked` : ``}>
+    <label class="event__offer-label" for="event-offer-${formattedTitle}-1">
+      <span class="event__offer-title">${offer.title}</span>
+      &plus;
+      &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
+    </label>
+  </div>`;
+  }
+
+  _renderOptions() {
+    if (this._options.length > 0) {
+      return `<section class="event__section  event__section--offers">
+      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+
+      <div class="event__available-offers">
+        ${this._options.map((option) => this._renderOfferSelector(option, option.accepted))}
+      </div>
+    </section>`;
+    } else {
+      return ``;
+    }
   }
 }
