@@ -57,6 +57,28 @@ export class PointController {
       }
     };
 
+
+    const onEventTypeClick = (evt) => {
+      if (evt.target.tagName === `INPUT` && evt.target.value !== this._eventData.type) {
+
+        const eventTypeInput = this._eventEdit.getElement().querySelector(`.event__type-output`);
+        const eventTypeIcon = this._eventEdit.getElement().querySelector(`.event__type-icon`);
+        const newEventType = evt.target.value;
+        eventTypeIcon.src = `img/icons/${newEventType}.png`;
+        eventTypeInput.innerText = `${newEventType}`;
+      }
+    };
+
+    const onDestinationChange = (evt) => {
+      const newCity = evt.target.value;
+      console.log(newCity);
+      this._eventEdit.getElement().querySelector(`.event__section--destination`).classList.remove(`visually-hidden`);
+    };
+
+    this._eventEdit.getElement().querySelector(`.event__type-list`).addEventListener(`click`, onEventTypeClick);
+    this._eventEdit.getElement().querySelector(`.event__input--destination`).addEventListener(`change`, onDestinationChange);
+
+
     this._eventView.getElement()
       .querySelector(`.event__rollup-btn`)
       .addEventListener(`click`, () => {
