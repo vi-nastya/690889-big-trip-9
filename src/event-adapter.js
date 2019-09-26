@@ -11,24 +11,24 @@ export class EventAdapter {
   }
 
   // app data -> server data
-  toRAW() {
+  toRAW(eventData) {
     return {
-      'id': this.id,
-      'type': this.type,
-      'date_from': this.dateStart,
-      'date_to': this.dateStart + this.duration,
-      'destination': this.destination,
-      'base_price': this.price,
-      'is_favorite': this.isFavorite,
-      'offers': this.options // TODO: update format
+      'id': eventData.id ? eventData.id : null,
+      'type': eventData.type,
+      'date_from': eventData.dateStart,
+      'date_to': eventData.dateStart + eventData.duration,
+      'destination': eventData.destination,
+      'base_price': eventData.price,
+      'is_favorite': eventData.isFavorite,
+      'offers': eventData.options // TODO: update format
     };
   }
 
-  static parseEvent(data) {
-    return new EventAdapter(data);
+  static parseEvent(eventData) {
+    return new EventAdapter(eventData);
   }
 
-  static parseEvents(data) {
-    return data.map(EventAdapter.parseEvent);
+  static parseEvents(eventData) {
+    return eventData.map(EventAdapter.parseEvent);
   }
 }

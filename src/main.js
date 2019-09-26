@@ -1,4 +1,4 @@
-import {getEventData, getTripInfoData, getFilters} from './data';
+import {getTripInfoData, getFilters} from './data';
 import {render, unrender, Position} from './utils';
 import {Menu} from './components/menu';
 import {FiltersList} from './components/filters';
@@ -8,54 +8,32 @@ import {Statistics} from './components/statistics';
 
 import {API} from './api';
 import {EventAdapter} from './event-adapter';
-import { Event } from './components/event';
 
 // API -------------------------------
 const AUTHORIZATION = `Basic dXNlckBwYXNzd29yZAo${Math.random()}`;
 const END_POINT = `https://htmlacademy-es-9.appspot.com/big-trip/`;
 
-//const taskListElement = document.querySelector(`.board__tasks`);
 
 const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 
-const onDataChange = (actionType, update) => {
-  switch (actionType) {
-    case `update`:
-      api.updateEvent({
-        id: update.id,
-        data: update.toRAW()
-      }).then((events) => boardController.show(events));
-      break;
-    case `delete`:
-      api.updateEvent({
-        id: update.id
-      })
-        .then(() => api.getEvents())
-        .then((tasks) => boardController.show(tasks));
-      break;
-  }
-};
+// const onDataChange = (actionType, update) => {
+//   switch (actionType) {
+//     case `update`:
+//       api.updateEvent({
+//         id: update.id,
+//         data: update.toRAW()
+//       }).then((events) => boardController.show(events));
+//       break;
+//     case `delete`:
+//       api.updateEvent({
+//         id: update.id
+//       })
+//         .then(() => api.getEvents())
+//         .then((tasks) => boardController.show(tasks));
+//       break;
+//   }
+// };
 
-
-//const boardController = new BoardController(taskListElement, onDataChange);
-
-//api.getTasks().then((tasks) => boardController.show(tasks));
-
-// ------------------------------------------
-
-const NUM_EVENTS = 15;
-
-const generateEventsData = (numEvents) => {
-  let events = [];
-  for (let i = 0; i < numEvents; i++) {
-    events.push(getEventData());
-  }
-  return events.sort((e1, e2) => {
-    return e1.dateStart < e2.dateStart;
-  });
-};
-
-// const events = generateEventsData(NUM_EVENTS);
 const tripInfoContainer = document.querySelector(`.trip-info`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
 const menuHeader = document.querySelectorAll(`.trip-controls h2`)[0];
