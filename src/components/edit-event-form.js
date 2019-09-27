@@ -1,5 +1,5 @@
 import {TRANSFER_TYPES, ACTIVITY_TYPES, AbstractComponent, getOffersForType} from '../utils';
-import {DESTINATIONS, OFFERS} from '../main';
+import {DESTINATIONS} from '../main';
 
 const renderTypeSelector = (type, selectedType) => {
   return `<div class="event__type-item">

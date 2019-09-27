@@ -1,7 +1,8 @@
 import {AbstractComponent} from '../utils';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPES} from '../utils';
+import {TRANSFER_TYPES, EVENT_TYPES, MILLISECONDS_IN_HOUR} from '../utils';
+import { METHODS } from 'http';
 
 export class Statistics extends AbstractComponent {
   constructor(eventsData) {
@@ -35,6 +36,7 @@ export class Statistics extends AbstractComponent {
 
     const transportChart = new Chart(transportChartElement, this._getChartConfig(`Transport`, this._getTransportData()));
     const moneyChart = new Chart(moneyChartElement, this._getChartConfig(`Money`, this._getMoneyData()));
+    const timeChart = new Chart(timeChartElement, this._getChartConfig(`Time`, this._getTimeData()));
   }
 
   _getChartConfig(title, data) {
@@ -96,7 +98,7 @@ export class Statistics extends AbstractComponent {
         name: type,
         value: this._eventsData.filter((event) => event.type === type).length
       };
-    }).filter((dt) => (dt.value > 0));
+    }).filter((data) => (data.value > 0));
   }
 
   _getMoneyData() {
@@ -107,12 +109,24 @@ export class Statistics extends AbstractComponent {
         name: type,
         value: events.length ? events.map((event) => event.price).reduce((accumulator, currentValue) => accumulator + currentValue) : 0
       };
-    }).filter((dt) => (dt.value > 0));
+    }).filter((data) => (data.value > 0));
   }
 
 
   _getTimeData() {
-    // ? destination -> total time spent ?
+    // type of event -> total time spent
+    return EVENT_TYPES.map((type) => {
+      const events = this._eventsData.filter((event) => event.type === type);
+      return {
+        name: type,
+        value: events.length ? events.map((event) => event.duration).reduce((accumulator, currentValue) => accumulator + currentValue) : 0
+      };
+    }).filter((data) => (data.value > 0)).map((data) => {
+      return {
+        name: data.name,
+        value: Math.round(data.value / MILLISECONDS_IN_HOUR)
+      };
+    });
 
   }
 
