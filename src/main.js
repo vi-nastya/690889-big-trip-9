@@ -73,11 +73,6 @@ api.getOffers().then((offers) => {
 
       const screenController = new ScreenController(menu, filters, tripController, statistics);
       screenController.init();
-
-      const addNewEventButton = document.querySelector(`.trip-main__event-add-btn`);
-      addNewEventButton.addEventListener(`click`, () => {
-        tripController.createEvent();
-      });
     });
   });
 });

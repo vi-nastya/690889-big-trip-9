@@ -50,6 +50,11 @@ export class TripController {
     document.querySelector(`.trip-filters`).addEventListener(`click`, (evt) => this._onFilterClick(evt));
 
     this._renderEventsByDate(this._events);
+
+    const addNewEventButton = document.querySelector(`.trip-main__event-add-btn`);
+    addNewEventButton.addEventListener(`click`, () => {
+      this.createEvent();
+    });
   }
 
   _renderEvents(eventsData, container) {
