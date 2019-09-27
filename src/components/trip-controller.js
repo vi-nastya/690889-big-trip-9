@@ -225,4 +225,8 @@ export class TripController {
     this._sortAndRenderEvents();
     evt.target.previousElementSibling.checked = true;
   }
+
+  getEvents() {
+    return this._events;
+  }
 }

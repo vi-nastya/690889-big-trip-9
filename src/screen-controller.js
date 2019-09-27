@@ -4,6 +4,8 @@ export class ScreenController {
     this._filters = filters;
     this._table = table;
     this._statistics = statistics;
+
+    this._statistics.init();
   }
   init() {
     this._menu.getElement().addEventListener(`click`, (evt) => {
@@ -24,7 +26,7 @@ export class ScreenController {
         case `menu-stats`:
           this._filters.hide();
           this._table.hide();
-          this._statistics.init();
+          this._statistics.refreshCharts(this._table.getEvents());
           this._statistics.show();
           break;
       }

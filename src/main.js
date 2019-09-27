@@ -17,24 +17,6 @@ const END_POINT = `https://htmlacademy-es-9.appspot.com/big-trip/`;
 
 const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 
-// const onDataChange = (actionType, update) => {
-//   switch (actionType) {
-//     case `update`:
-//       api.updateEvent({
-//         id: update.id,
-//         data: update.toRAW()
-//       }).then((events) => boardController.show(events));
-//       break;
-//     case `delete`:
-//       api.updateEvent({
-//         id: update.id
-//       })
-//         .then(() => api.getEvents())
-//         .then((tasks) => boardController.show(tasks));
-//       break;
-//   }
-// };
-
 const tripInfoContainer = document.querySelector(`.trip-info`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
 const menuHeader = document.querySelectorAll(`.trip-controls h2`)[0];

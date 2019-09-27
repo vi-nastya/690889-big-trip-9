@@ -2,7 +2,6 @@ import {AbstractComponent} from '../utils';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import {TRANSFER_TYPES, EVENT_TYPES, MILLISECONDS_IN_HOUR} from '../utils';
-import { METHODS } from 'http';
 
 export class Statistics extends AbstractComponent {
   constructor(eventsData) {
@@ -34,9 +33,23 @@ export class Statistics extends AbstractComponent {
     const transportChartElement = document.querySelector(`.statistics__chart--transport`);
     const timeChartElement = document.querySelector(`.statistics__chart--time`);
 
-    const transportChart = new Chart(transportChartElement, this._getChartConfig(`Transport`, this._getTransportData()));
-    const moneyChart = new Chart(moneyChartElement, this._getChartConfig(`Money`, this._getMoneyData()));
-    const timeChart = new Chart(timeChartElement, this._getChartConfig(`Time`, this._getTimeData()));
+    this._transportChart = new Chart(transportChartElement, this._getChartConfig(`Transport`, this._getTransportData()));
+    this._moneyChart = new Chart(moneyChartElement, this._getChartConfig(`Money`, this._getMoneyData()));
+    this._timeChart = new Chart(timeChartElement, this._getChartConfig(`Time`, this._getTimeData()));
+  }
+
+
+  _refreshChart(chart, data) {
+    chart.data.labels = data.map((item) => item.name);
+    chart.data.datasets[0].data = data.map((item) => item.value);
+    chart.update();
+  }
+
+  refreshCharts(eventsData) {
+    this._eventsData = eventsData;
+    this._refreshChart(this._transportChart, this._getTransportData());
+    this._refreshChart(this._moneyChart, this._getMoneyData());
+    this._refreshChart(this._timeChart, this._getTimeData());
   }
 
   _getChartConfig(title, data) {
