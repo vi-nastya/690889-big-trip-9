@@ -3,6 +3,7 @@ import {TripSort} from './trip-sort';
 import {DaysList} from './days-list';
 import {Day} from './day';
 import {Mode, PointController} from './point-controller';
+import {EventAdapter} from '../event-adapter';
 
 const Sorting = {
   DEFAULT: `default`,
@@ -17,9 +18,10 @@ const Filters = {
 };
 
 export class TripController {
-  constructor(container, eventsData) {
+  constructor(container, eventsData, api) {
     this._container = container;
     this._events = eventsData;
+    this._api = api;
     this._sort = new TripSort();
     this._daysList = new DaysList();
     this._eventsContainer = null;
@@ -180,16 +182,25 @@ export class TripController {
 
     if (newData === null && oldData === null) {
       this._creatingEvent = null;
+      this._sortAndRenderEvents();
     } else if (newData === null) {
+      // deleting event
       this._events = [...this._events.slice(0, index), ...this._events.slice(index + 1)];
+      this._sortAndRenderEvents();
     } else if (oldData === null) {
+      // creating new event
       this._creatingEvent = null;
       this._events = [...this._events, newData];
+      this._sortAndRenderEvents();
     } else {
-      this._events[index] = newData;
+      // updating event
+      this._api.updateEvent(newData.id, EventAdapter.toRAW(newData))
+      .then(() => this._api.getEvents())
+      .then((events) => {
+        this._events = EventAdapter.parseEvents(events);
+        this._sortAndRenderEvents();
+      });
     }
-
-    this._sortAndRenderEvents();
   }
 
   _onChangeView() {

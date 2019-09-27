@@ -49,7 +49,7 @@ export const API = class {
       .then(toJSON);
   }
 
-  updateEvent({id, data}) {
+  updateEvent(id, data) {
     return this._load({
       url: `points/${id}`,
       method: Method.PUT,

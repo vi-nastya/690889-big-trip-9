@@ -102,6 +102,7 @@ export class PointController {
             description: this._eventEdit.getElement().querySelector(`.event__destination-description`).innerText,
             pictures: getPicturesDataFromForm()
           },
+          id: this._eventData.id,
           dateStart: new Date(formData.get(`event-start-time`)).getTime(),
           duration: new Date(formData.get(`event-end-time`)).getTime() - new Date(formData.get(`event-start-time`)).getTime(),
           price: parseInt(formData.get(`event-price`), 10),

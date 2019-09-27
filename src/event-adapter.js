@@ -11,7 +11,7 @@ export class EventAdapter {
   }
 
   // app data -> server data
-  toRAW(eventData) {
+  static toRAW(eventData) {
     return {
       'id': eventData.id ? eventData.id : null,
       'type': eventData.type,

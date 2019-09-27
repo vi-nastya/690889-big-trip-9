@@ -63,7 +63,7 @@ api.getOffers().then((offers) => {
       let filters = new FiltersList(getFilters(events));
       render(filtersHeader, filters.getElement(), Position.AFTEREND);
 
-      let tripController = new TripController(tripEventsContainer, events);
+      let tripController = new TripController(tripEventsContainer, events, api);
       tripController.init();
 
       const statsContainer = document.querySelectorAll(`.page-body__container`)[1];
