@@ -24,6 +24,7 @@ export class ScreenController {
         case `menu-stats`:
           this._filters.hide();
           this._table.hide();
+          this._statistics.init();
           this._statistics.show();
           break;
       }
