@@ -7,6 +7,7 @@ export class Statistics extends AbstractComponent {
   constructor(eventsData) {
     super();
     this._eventsData = eventsData;
+    this._hidden = true;
   }
 
   getTemplate() {
@@ -113,5 +114,19 @@ export class Statistics extends AbstractComponent {
   _getTimeData() {
     // ? destination -> total time spent ?
 
+  }
+
+  hide() {
+    if (!this._hidden) {
+      document.querySelector(`.statistics`).classList.add(`visually-hidden`);
+      this._hidden = true;
+    }
+  }
+
+  show() {
+    if (this._hidden) {
+      document.querySelector(`.statistics`).classList.remove(`visually-hidden`);
+      this._hidden = false;
+    }
   }
 }

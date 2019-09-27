@@ -11,6 +11,7 @@ export class FiltersList extends AbstractComponent {
   constructor(filtersData) {
     super();
     this._data = filtersData;
+    this._hidden = false;
   }
 
   getTemplate() {
@@ -18,5 +19,19 @@ export class FiltersList extends AbstractComponent {
               ${this._data.map((filter) => renderFilter(filter.name, filter.isSelected)).join(`\n`)}
               <button class="visually-hidden" type="submit">Accept filter</button>
             </form>`;
+  }
+
+  hide() {
+    if (!this._hidden) {
+      document.querySelector(`.trip-filters`).classList.add(`visually-hidden`);
+      this._hidden = true;
+    }
+  }
+
+  show() {
+    if (this._hidden) {
+      document.querySelector(`.trip-filters`).classList.remove(`visually-hidden`);
+      this._hidden = false;
+    }
   }
 }

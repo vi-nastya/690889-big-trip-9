@@ -5,6 +5,7 @@ import {FiltersList} from './components/filters';
 import {TripInfo} from './components/trip-info';
 import {TripController} from './components/trip-controller';
 import {Statistics} from './components/statistics';
+import {ScreenController} from './screen-controller';
 
 import {API} from './api';
 import {EventAdapter} from './event-adapter';
@@ -59,8 +60,8 @@ api.getOffers().then((offers) => {
       const menu = new Menu();
       render(menuHeader, menu.getElement(), Position.AFTEREND);
 
-      let filters = getFilters(events);
-      render(filtersHeader, new FiltersList(filters).getElement(), Position.AFTEREND);
+      let filters = new FiltersList(getFilters(events));
+      render(filtersHeader, filters.getElement(), Position.AFTEREND);
 
       let tripController = new TripController(tripEventsContainer, events);
       tripController.init();
@@ -70,27 +71,8 @@ api.getOffers().then((offers) => {
       statistics.getElement().classList.add(`visually-hidden`);
       render(statsContainer, statistics.getElement(), Position.BEFOREEND);
 
-      menu.getElement().addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-
-        if (evt.target.tagName !== `A`) {
-          return;
-        }
-
-        switch (evt.target.id) {
-          case `menu-table`:
-            if (!statistics.getElement().classList.contains(`visually-hidden`)) {
-              statistics.getElement().classList.add(`visually-hidden`);
-            }
-            tripController.show();
-            break;
-          case `menu-stats`:
-            statistics.getElement().classList.remove(`visually-hidden`);
-            statistics.init();
-            tripController.hide();
-            break;
-        }
-      });
+      const screenController = new ScreenController(menu, filters, tripController, statistics);
+      screenController.init();
 
       const addNewEventButton = document.querySelector(`.trip-main__event-add-btn`);
       addNewEventButton.addEventListener(`click`, () => {
