@@ -194,7 +194,7 @@ export class TripController {
       this._sortAndRenderEvents();
     } else {
       // updating event
-      this._api.updateEvent(newData.id, EventAdapter.toRAW(newData))
+      this._api.updateEvent(oldData.id, EventAdapter.toRAW(newData))
       .then(() => this._api.getEvents())
       .then((events) => {
         this._events = EventAdapter.parseEvents(events);
