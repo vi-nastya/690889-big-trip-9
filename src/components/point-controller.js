@@ -107,6 +107,7 @@ export class PointController {
           price: parseInt(formData.get(`event-price`), 10),
           options: getOffersFromForm(),
           type: formData.get(`event-type`),
+          isFavorite: formData.get(`event-favorite`) === `on` ? true : false,
         };
 
         if (this._mode === Mode.ADDING) {
